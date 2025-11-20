@@ -1,3 +1,3 @@
 # Labyrinthe68k
 
-En developpement...
+Aller c'est tipar
