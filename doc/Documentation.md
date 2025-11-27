@@ -2,17 +2,17 @@
 
 ## Variables
 
-* MAZE :
+* **MAZE** :
     * tableau de 200o
     * représente l'architecture du labyrinthe
     
-* VISITED :
+* **VISITED** :
     * tableau de 200o
     * sert à modéliser la visite des proches voisins dans l'algo de génération en profondeur
 
 ## Procédures
 
-* TO1D :
+* **TO1D** : *DATASPACE.X68*
     * retourne la valeur de MAZE à l'adresse (x,y)
     * D3.w :
         * x sur 4 bit
