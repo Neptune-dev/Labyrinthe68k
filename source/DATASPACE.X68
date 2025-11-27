@@ -4,30 +4,28 @@
 * Date       : 2025
 * Description:
 *-----------------------------------------------------------
-    ORG    $1000
-START:                  ; first instruction of program
 
-* Put program code here
+GETCELL:
+    MULU    D3,D5   ; y*t -> D5
+    ADD.w   D5,D4   ; (yt + x) -> D4
+    ADD.l   MAZE,D4 ; adresse réelle -> D4
+    MOVEA.l  D4,A0  ; D4 -> A0
+    MOVE    (A0),D5 ; D5 -> return
+    RTS
 
-    TO1D:
-        MULU.l  D3,D5   ; y*t -> D5
-        ADD.l   D5,D4   ; (yt + x) -> D4
-        MOVE.l  D4,D3   ; D4 -> D3
-        DIVU    #8,D3   ; (yt + x)/8 -> D3
+SETCELL:
+    MULU    D3,D5   ; y*t -> D5
+    ADD.w   D5,D4   ; (yt + x) -> D4
+    ADD.l   MAZE,D4 ; adresse réelle -> D4
+    MOVE.l  A0,D5   ; n -> D5
+    MOVEA.l  D4,A0  ; adresse réelle -> A0
+    MOVE    D5,(A0)
+    RTS
 
-
-        RTS
-
-    SIMHALT             ; halt simulator
-
-* Put variables and constants here
-
-    END    START        ; last line of source
+MAZE : DS.w 6561
 
 *~Font name~Courier New~
 *~Font size~10~
 *~Tab type~1~
 *~Tab size~4~
 
-xxxx yyyy tttttttt
-0000 0000 11111111
