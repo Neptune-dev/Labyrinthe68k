@@ -9,7 +9,7 @@ GETCELL:
     MULU    D3,D5   ; y*t -> D5
     ADD.w   D5,D4   ; (yt + x) -> D4
     ADD.l   MAZE,D4 ; adresse réelle -> D4
-    MOVEA.l  D4,A0  ; D4 -> A0
+    MOVEA.l D4,A0  ; D4 -> A0
     MOVE    (A0),D5 ; D5 -> return
     RTS
 
@@ -21,8 +21,6 @@ SETCELL:
     MOVEA.l  D4,A0  ; adresse réelle -> A0
     MOVE    D5,(A0)
     RTS
-
-MAZE : DS.w 6561
 
 *~Font name~Courier New~
 *~Font size~10~

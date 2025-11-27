@@ -40,7 +40,10 @@ ___
     * ✅ D3.w : largeur du labyrinthe
     * ❌ D4.w : x
     * ❌ D5.w : y
-    * ❌ A0 : n
+    * ❌ A0.l : n
+
+* **COUCOU** : *RENDERER.X68*
+    * écrit coucou sur la sortie standart
 
 ## Registres
 
