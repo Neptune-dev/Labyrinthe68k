@@ -7,17 +7,17 @@
 
 COUCOU:
     MOVE.b  #$43,D1 ; C
-    JSR AFFCAR
+    JSR     AFFCAR
     MOVE.b  #$4F,D1 ; O
-    JSR AFFCAR
+    JSR     AFFCAR
     MOVE.b  #$55,D1 ; U
-    JSR AFFCAR
+    JSR     AFFCAR
     MOVE.b  #$43,D1 ; C
-    JSR AFFCAR
+    JSR     AFFCAR
     MOVE.b  #$4F,D1 ; O
-    JSR AFFCAR
+    JSR     AFFCAR
     MOVE.b  #$55,D1 ; U
-    JSR AFFCAR
+    JSR     AFFCAR
     RTS
 
 *~Font name~Courier New~

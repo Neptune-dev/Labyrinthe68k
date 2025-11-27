@@ -7,7 +7,22 @@
     ORG $1000
 START
 
-    JSR COUCOU
+    JSR     COUCOU
+
+    JSR     INITCELLS
+
+    MOVE.l  #81,D3
+    MOVE.l  #10,D4
+    MOVE.l  #10,D5
+    MOVEA   #7,A0
+
+    JSR     SETCELL
+
+    MOVE.l  #81,D3
+    MOVE.l  #10,D4
+    MOVE.l  #10,D5
+    
+    JSR     GETCELL
 
     JMP FINPRG
 
