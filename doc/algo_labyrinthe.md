@@ -14,9 +14,13 @@ On modélise le labyrinthe de la façon suivante :
 - Le reste des cases seront donc des cases de murs qui peuvent être vouées à se casser au fil de l'algorithme.
 
 Posons en préambule les fonctions suivantes:
+
 **labyFait**: bool -> renverra true ou false en fonction de si toutes les cases "valeur" du tableau sont à la meme valeur.
+
 **propagerValeur(ancienne,nouvelle)**: void -> propage la valeur *nouvelle* partout où les valeurs *ancienne* sont présentes.
+
 **get_cell(x,y)**: int -> renvoie la valeur de la cellule à la position (x,y)
+
 **set_cell(x,y,val)**: void -> met à la position x,y la valeur val.
 
 ainsi que la constante **taille** qui contient le nombre de cases valeurs du labyrinthe (carré).
