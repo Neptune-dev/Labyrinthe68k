@@ -52,12 +52,12 @@ ___
 | D0 | ❌ | Appels systèmes très fréquents |
 | D1 | ❌ | Appels systèmes très fréquents |
 | D2 | ❌ | Appels systèmes pour l'affichage |
-| D3 | ⚠️ | GETMAZE, SETCELL |
-| D4 | ⚠️ | GETMAZE, SETCELL |
-| D5 | ⚠️ | GETMAZE, SETCELL |
+| D3 | ⚠️ | GETCELL, SETCELL |
+| D4 | ⚠️ | GETCELL, SETCELL |
+| D5 | ⚠️ | GETCELL, SETCELL |
 | D6 | ✅ |  |
 | D7 | ✅ |  |
-| A0 | ⚠️ | GETMAZE, SETCELL |
+| A0 | ⚠️ | GETCELL, SETCELL |
 | A1 | ⚠️ | Ouverture de fichiers |
 | A2 | ✅ |  |
 | A3 | ✅ |  |
