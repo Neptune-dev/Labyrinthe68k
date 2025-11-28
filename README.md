@@ -1,3 +1,3 @@
 # Labyrinthe68k
 
-[`Documentation`](doc/Documentation.md)
+Aller c'est tipar

@@ -43,7 +43,9 @@ ___
     * ❌ A0.l : n
 
 * **COUCOU** : *RENDERER.X68*
-    * écrit coucou sur la sortie standart
+    * écrit coucou sur la sortie standard
+* **RANDOMVAL** : *????.X68* (non faite)
+    * stocke une valeur aléatoire comprise entre 1 et taille*2 dans le registre A2
 
 ## Registres
 
@@ -59,7 +61,7 @@ ___
 | D7 | ✅ |  |
 | A0 | ⚠️ | GETCELL, SETCELL |
 | A1 | ⚠️ | Ouverture de fichiers |
-| A2 | ✅ |  |
+| A2 | ⚠️ | RANDOMVAL |
 | A3 | ✅ |  |
 | A4 | ✅ |  |
 | A5 | ✅ |  |
