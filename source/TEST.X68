@@ -7,9 +7,9 @@
     ORG $1000
 START
 
-    JSR     COUCOU
+    JSR     SETSEED
 
-    JSR     INITCELLS
+    JSR     COUCOU
 
     MOVE.l  #81,D3
     MOVE.l  #10,D4
@@ -33,6 +33,7 @@ START
     INCLUDE 'BIBGRAPH.X68'
 
     MAZE: DS.w 6561
+    SEED: DS.l 1
 
     END START
 

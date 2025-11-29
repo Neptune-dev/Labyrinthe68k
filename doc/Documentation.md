@@ -15,6 +15,11 @@ ___
         * les autres valeurs sont les indices de cases
         * chaque case fait 16 bits
 
+* **SEED** :
+    * entier de 4o
+    * représente la seed utilisée pour les valeurs pseudo-aléatoire
+    * définie à l'execution grâce à la procédure **SETSEED**
+
 ## Procédures
 
 Ici sont listées les procédures. Sont spécifiés:
@@ -42,10 +47,18 @@ ___
     * ❌ D5.w : y
     * ❌ A0.l : n
 
+* **SETSEED** : *DATASPACE.X68*
+    * génère la seed en fonction de l'heure et la stocke dans **SEED**
+    * ✅ D1.l : travail
+
+* **RANDOMVAL** : *DATASPACE.X68*
+    * retourne une valeur aléatoire comprise entre 1 et n
+    * ✅ D4 : n
+    * **retour** : A2
+
 * **COUCOU** : *RENDERER.X68*
     * écrit coucou sur la sortie standard
-* **RANDOMVAL** : *????.X68* (non faite)
-    * stocke une valeur aléatoire comprise entre 1 et taille*2 dans le registre A2
+
 
 ## Registres
 
