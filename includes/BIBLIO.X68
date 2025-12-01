@@ -15,7 +15,7 @@ SAISCAR:
     RTS
 
 GET_TIME:
-    MOVE    #5,D0
+    MOVE    #8,D0
     TRAP    #15
     RTS
     
@@ -32,6 +32,7 @@ GET_AFFCAR:
 FINPRG:
     MOVE    #9,D0
     TRAP    #15
+
 
 
 

@@ -30,7 +30,7 @@ ainsi que la constante **taille** qui contient le nombre de cases valeurs du lab
         xmur <- valeur aléatoire comprise entre 1 et taille*2
         SI get_cell(xmur,ymur) == 1 faire //si c'est bien un mur plein
             SI xmur%2 != 1 ET ymur%2 != 1 //si les deux sont vrais: mur intouchable
-                si (xmur != taille*2 +1) ET (ymur != taille*2+1) ET (xmur != 0) ET (ymur != 0) faire // les bords sont intouchables aussi
+                si (xmur != taille*2 +1) ET (ymur != taille*2+1)faire // les bords sont intouchables aussi
                 BRA BOUCLE_CONSTRUCTION
             FINSI
         FINSI
@@ -39,6 +39,7 @@ ainsi que la constante **taille** qui contient le nombre de cases valeurs du lab
 
 -------------- Implémentation théorique en 68000 du script ci-dessus -------------
     MUR_RANDOM:
+        
         JSR RANDOMVAL
         MOVE.W (A2),XMUR
         JSR RANDOMVAL
@@ -48,6 +49,7 @@ ainsi que la constante **taille** qui contient le nombre de cases valeurs du lab
         JSR GETCELL
         CMP.W (A0),#1 : A0 utilisable à partir d'ici
         BEQ SI_MUR_RANDOM1
+        BRA MUR_RANDOM
 
     SI_MUR_RANDOM1:
         MOVE.W xmur,(D6) : copie dans A3/A4 pour division
@@ -57,12 +59,26 @@ ainsi que la constante **taille** qui contient le nombre de cases valeurs du lab
         SWAP D6 : reste dans les 16 bits de poids fort: swap nécéssaire
         SWAP D7
         CMP.W   #1,D6
-        BEQ ET_MUR_RANDOM1
+        BNE ET_MUR_RANDOM1
+        BRA MUR_RANDOM
 
     ET_MUR_RANDOM1:
         CMP.W   #1,D7
-        BEQ ET_MUR_RANDOM2
+        BNE MUR_RANDOM_SUITE
+        BRA MUR_RANDOM
 
+    MUR_RANDOM_SUITE:
+        CMP.W D7,TAILLE : ATTENTION: VARIABLE TAILLE NON STOCKEE DANS UN REGISTRE, A VOIR OU ON LA STOCKE
+        BNE ET_MUR_RANDOM_SUITE1
+        BRA MUR_RANDOM
+
+    ET_MUR_RANDOM_SUITE1:
+        CMP.W D6,TAILLE
+        BNE BOUCLE_CONSTRUCTION
+        BRA MUR_RANDOM
+        RTS
+
+    
 
 
 ---------------- fin ---------------------

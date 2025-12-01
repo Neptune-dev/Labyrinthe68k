@@ -24,14 +24,26 @@ SETCELL:
 
 SETSEED:
     JSR     GET_TIME
-    MOVE.L  D1,SEED
+    MOVE.W  D1,SEED
     RTS
 
 RANDOMVAL:
+    MOVE.w  SEED,D0
+    MULU    #25173,D0
+    ADD.w   #13849,D0
+    MOVE.w  D0,SEED
+
+    MOVE.W SEED,D1
+    DIVU   D4,D1
+    MOVE.W D1,A2
+
     RTS
+
+*~Font name~Courier New~
+
+
 
 *~Font name~Courier New~
 *~Font size~10~
 *~Tab type~1~
 *~Tab size~4~
-
