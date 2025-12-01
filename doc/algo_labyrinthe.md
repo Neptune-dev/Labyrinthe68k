@@ -50,13 +50,18 @@ ainsi que la constante **taille** qui contient le nombre de cases valeurs du lab
         BEQ SI_MUR_RANDOM1
 
     SI_MUR_RANDOM1:
-        MOVE.W xmur,(A3) : copie dans A3/A4 pour division
-        MOVE.W ymur,(A4)
-        DIVU (A3),#2 : division pour modulo 2
-        DIVU (A4),#2
-        //FONCTIONNE PAS EN DESSOUS, VOIR LA DOCU DU DIVU POUR COMPRENDRE LE PROBLEME
-        AND.W #$FF00,(A4)
-        AND.W #$FF00,(A3)
+        MOVE.W xmur,(D6) : copie dans A3/A4 pour division
+        MOVE.W ymur,(D7)
+        DIVU (D6),#2 : division pour modulo 2
+        DIVU (D7),#2
+        SWAP D6 : reste dans les 16 bits de poids fort: swap nécéssaire
+        SWAP D7
+        CMP.W   #1,D6
+        BEQ ET_MUR_RANDOM1
+
+    ET_MUR_RANDOM1:
+        CMP.W   #1,D7
+        BEQ ET_MUR_RANDOM2
 
 
 
