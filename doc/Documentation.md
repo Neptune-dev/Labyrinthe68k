@@ -15,6 +15,11 @@ ___
         * les autres valeurs sont les indices de cases
         * chaque case fait 16 bits
 
+* **SEED** :
+    * entier de 4o
+    * représente la seed utilisée pour les valeurs pseudo-aléatoire
+    * définie à l'execution grâce à la procédure **SETSEED**
+
 ## Procédures
 
 Ici sont listées les procédures. Sont spécifiés:
@@ -42,10 +47,18 @@ ___
     * ❌ D5.w : y
     * ❌ A0.l : n
 
+* **SETSEED** : *DATASPACE.X68*
+    * génère la seed en fonction de l'heure et la stocke dans **SEED**
+    * ✅ D1.l : travail
+
+* **RANDOMVAL** : *DATASPACE.X68*
+    * retourne une valeur aléatoire comprise entre 1 et n
+    * ✅ D4 : n
+    * **retour** : A2
+
 * **COUCOU** : *RENDERER.X68*
     * écrit coucou sur la sortie standard
-* **RANDOMVAL** : *????.X68* (non faite)
-    * stocke une valeur aléatoire comprise entre 1 et taille*2 dans le registre A2
+
 
 ## Registres
 
@@ -54,12 +67,12 @@ ___
 | D0 | ❌ | Appels systèmes très fréquents |
 | D1 | ❌ | Appels systèmes très fréquents |
 | D2 | ❌ | Appels systèmes pour l'affichage |
-| D3 | ⚠️ | GETMAZE, SETCELL |
-| D4 | ⚠️ | GETMAZE, SETCELL |
-| D5 | ⚠️ | GETMAZE, SETCELL |
+| D3 | ⚠️ | GETCELL, SETCELL |
+| D4 | ⚠️ | GETCELL, SETCELL |
+| D5 | ⚠️ | GETCELL, SETCELL |
 | D6 | ✅ |  |
 | D7 | ✅ |  |
-| A0 | ⚠️ | GETMAZE, SETCELL |
+| A0 | ⚠️ | GETCELL, SETCELL |
 | A1 | ⚠️ | Ouverture de fichiers |
 | A2 | ⚠️ | RANDOMVAL |
 | A3 | ✅ |  |

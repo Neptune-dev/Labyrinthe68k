@@ -22,6 +22,14 @@ SETCELL:
     MOVE    D5,(A0)
     RTS
 
+SETSEED:
+    JSR     GET_TIME
+    MOVE.L  D1,SEED
+    RTS
+
+RANDOMVAL:
+    RTS
+
 *~Font name~Courier New~
 *~Font size~10~
 *~Tab type~1~
