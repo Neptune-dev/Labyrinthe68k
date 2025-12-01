@@ -39,7 +39,6 @@ ainsi que la constante **taille** qui contient le nombre de cases valeurs du lab
 
 -------------- Implémentation théorique en 68000 du script ci-dessus -------------
     MUR_RANDOM:
-        
         JSR RANDOMVAL
         MOVE.W (A2),XMUR
         JSR RANDOMVAL
