@@ -9,21 +9,22 @@ START:
 
     JSR INIT_MAZE
     JSR INIT_MAZE_LOOP
-    MOVE.L  #0,D4
-    MOVE.L  TAILLE,D4
-    JSR RANDOMVAL
+	MOVE.W	TAILLE,D3
+    JSR INIT_LOOP
+	
     JSR FINPRG
-    INCLUDE 'DATASPACE.X68'
     INCLUDE 'GAMESPACE.X68'
+    INCLUDE 'DATASPACE.X68'
     INCLUDE 'BIBLIO.X68'
-
     MAZE: DS.w 6561
     SEED: DS.l 1
-    TAILLE: DC.l 8
+    TAILLE: DC.W 8
     END START
 
 
     
+
+
 
 *~Font name~Courier New~
 *~Font size~10~
