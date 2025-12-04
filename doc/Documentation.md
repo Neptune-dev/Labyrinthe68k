@@ -15,6 +15,14 @@ ___
         * les autres valeurs sont les indices de cases
         * chaque case fait 16 bits
 
+* **TILESHEET** :
+    * tableau de 2048o
+    * stocke la tilesheet pour *RENDERER.X68*
+    * les tiles font par défaut 32px de large et 32px de long
+    * chaque pixel est codé sur 8 bits
+    * le format de couleur est `00RRGGBB`
+    * les tiles sont empilées en colonne
+
 * **SEED** :
     * entier de 4o
     * représente la seed utilisée pour les valeurs pseudo-aléatoire
@@ -49,7 +57,7 @@ ___
 
 * **SETSEED** : *DATASPACE.X68*
     * génère la seed en fonction de l'heure et la stocke dans **SEED**
-    * ✅ D1.l : travail
+    * ❌ D1.l : travail
 
 * **RANDOMVAL** : *DATASPACE.X68*
     * retourne une valeur aléatoire comprise entre 1 et n
@@ -68,7 +76,7 @@ ___
 | D1 | ❌ | Appels systèmes très fréquents |
 | D2 | ❌ | Appels systèmes pour l'affichage |
 | D3 | ⚠️ | GETCELL, SETCELL |
-| D4 | ⚠️ | GETCELL, SETCELL |
+| D4 | ⚠️ | GETCELL, SETCELL, RANDOMVAL |
 | D5 | ⚠️ | GETCELL, SETCELL |
 | D6 | ✅ |  |
 | D7 | ✅ |  |

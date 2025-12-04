@@ -33,14 +33,11 @@ RANDOMVAL:
     ADD.L   #13849,D0
     MOVE.L  D0,SEED
 
-    MOVE.W SEED,D1
-    DIVU   D4,D1
+    MOVE.W  SEED,D1
+    DIVU    D4,D1
     SWAP    D1
-    MOVE.W D1,A2
+    MOVE.W  D1,A2
     RTS
-*~Font name~Courier New~
-
-
 
 
 
