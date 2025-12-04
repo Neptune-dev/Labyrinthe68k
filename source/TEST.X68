@@ -20,7 +20,7 @@ START
 
     MAZE:       DS.w 6561
     TILESHEET:  DS.l 2048
-    TILEREF:    DC.l 'lab.tilesheet'
+    TILEREF:    DC.l 'debug.tilesheet'
     SEED:       DS.l 1
 
     END START
