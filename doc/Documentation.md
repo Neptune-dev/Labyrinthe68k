@@ -7,13 +7,32 @@ Ici sont listées les variables. Sont spécifiés:
 
 ___
 
+* **PLAYER** :
+    * entier de 4o
+    * représente la postition et l'orientation du joueur dans **MAZE**
+        * le 1er octet est vide
+        * le 2eme represente l'orientation selon le format `0000NSEW`
+        * le 3eme represente x
+        * le 4eme represente y
+
 * **MAZE** :
-    * tableau de 6 561o
+    * tableau de 6 561 mots (=13 322o)
     * représente l'architecture du labyrinthe
         * les 1 sont les murs
         * les 0 sont les chemins ouverts
         * les autres valeurs sont les indices de cases
         * chaque case fait 16 bits
+
+* **TILESHEET** :
+    * tableau de 2048 mots longs (=8192o)
+    * stocke la tilesheet pour *RENDERER.X68*
+    * les tiles font par défaut 32px de large et 32px de long
+    * la couleur de chaque pixel est codé sur 32 bits au format `$00BBGGRR`
+    * les tiles sont empilées en colonne
+    * > pour le moment il n'y a que 2 tiles : mur et sans mur = 8192o
+
+* **TILEREF** :
+    * chaine de caractère contenant le nom du fichier de tilesheet utilisé
 
 * **SEED** :
     * entier de 4o
@@ -49,7 +68,7 @@ ___
 
 * **SETSEED** : *DATASPACE.X68*
     * génère la seed en fonction de l'heure et la stocke dans **SEED**
-    * ✅ D1.l : travail
+    * ❌ D1.l : travail
 
 * **RANDOMVAL** : *DATASPACE.X68*
     * retourne une valeur aléatoire comprise entre 1 et n
@@ -59,24 +78,34 @@ ___
 * **COUCOU** : *RENDERER.X68*
     * écrit coucou sur la sortie standard
 
+* **CLEAR_TILESHEET** : *RENDERER.X68*
+    * met à 0 toute la **TILESHEET**
+    * ❌ A1 : travail
+    * ❌ D2 : travail
+
+* **LOAD_TILESHEET** : *RENDERER.X68*
+    * met à 0 toute la **TILESHEET**
+    * charge dans **TILESHEET** le fichier **TILEREF**
+    * ❌ D2.l : taille attendue de la tilesheet (en octets)
+
 
 ## Registres
 
-| Registre | Libre | Utilisation |
-|---|---|---|
-| D0 | ❌ | Appels systèmes très fréquents |
-| D1 | ❌ | Appels systèmes très fréquents |
-| D2 | ❌ | Appels systèmes pour l'affichage |
-| D3 | ⚠️ | GETCELL, SETCELL |
-| D4 | ⚠️ | GETCELL, SETCELL |
-| D5 | ⚠️ | GETCELL, SETCELL |
+| Registre | Libre | Utilisation | Procédures |
+|---|---|---|---|
+| D0 | ❌ | Appels systèmes |  |
+| D1 | ❌ | Appels systèmes |  |
+| D2 | ⚠️ | Appels systèmes pour l'affichage | CLEAR_TILESHEET |
+| D3 | ⚠️ |  | GETCELL, SETCELL |
+| D4 | ⚠️ |  | GETCELL, SETCELL, RANDOMVAL |
+| D5 | ⚠️ |  | GETCELL, SETCELL |
 | D6 | ✅ |  |
 | D7 | ✅ |  |
-| A0 | ⚠️ | GETCELL, SETCELL |
-| A1 | ⚠️ | Ouverture de fichiers |
-| A2 | ⚠️ | RANDOMVAL |
-| A3 | ✅ |  |
-| A4 | ✅ |  |
-| A5 | ✅ |  |
-| A6 | ✅ |  |
-| A7 | ✅ |  |
+| A0 | ⚠️ |  | GETCELL, SETCELL |
+| A1 | ⚠️ |  | LOAD_TILESHEET, CLEAR_TILESHEET |
+| A2 | ⚠️ |  | RANDOMVAL |
+| A3 | ✅ |  |  |
+| A4 | ✅ |  |  |
+| A5 | ✅ |  |  |
+| A6 | ✅ |  |  |
+| A7 | ✅ |  |  |

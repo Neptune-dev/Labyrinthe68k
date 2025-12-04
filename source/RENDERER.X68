@@ -20,6 +20,27 @@ COUCOU:
     JSR     AFFCAR
     RTS
 
+CLEAR_TILESHEET:
+    MOVEA   #TILESHEET,A1  ; on met l'adresse de la tilesheet dans A1
+    CLR.l   D2
+FORCLEAR:
+    CLR.l   (A1)
+    ADDA.l   D2,A1
+    ADD.l   #4,D2
+    CMP     #8192,D2
+    BLT     FORCLEAR
+    RTS
+
+LOAD_TILESHEET:
+    JSR     CLEAR_TILESHEET ; clear
+    MOVEA   #TILEREF,A1     ; on met l'adresse de notre fichier dans A1
+    JSR     OPEN_FILE       ; on ouvre le fichier
+    MOVEA   #TILESHEET,A1  ; on met l'adresse de la tilesheet dans A1
+    JSR     READ_FILE       ; lecture
+    JSR     CLOSE_FILE
+    RTS
+
+
 *~Font name~Courier New~
 *~Font size~10~
 *~Tab type~1~
