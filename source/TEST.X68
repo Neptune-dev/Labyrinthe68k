@@ -7,22 +7,7 @@
     ORG $1000
 START
 
-    JSR     SETSEED
-
-    JSR     COUCOU
-
-    MOVE.l  #81,D3
-    MOVE.l  #10,D4
-    MOVE.l  #10,D5
-    MOVEA   #7,A0
-
-    JSR     SETCELL
-
-    MOVE.l  #81,D3
-    MOVE.l  #10,D4
-    MOVE.l  #10,D5
-    
-    JSR     GETCELL
+    JSR     LOAD_TILESHEET
 
     JMP FINPRG
 
@@ -31,10 +16,12 @@ START
     
     INCLUDE 'BIBLIO.X68'
     INCLUDE 'BIBGRAPH.X68'
+    INCLUDE 'BIBFICH.X68'
 
-    MAZE: DS.w 6561
-    TILESHEET:  DS.o 2048
-    SEED: DS.l 1
+    MAZE:       DS.w 6561
+    TILESHEET:  DS.l 2048
+    TILEREF:    DC.l 'lab.tilesheet'
+    SEED:       DS.l 1
 
     END START
 
