@@ -10,17 +10,19 @@ GETCELL:
     ADD.w   D5,D4   ; (yt + x) -> D4
     ADD.l   #MAZE,D4 ; adresse réelle -> D4
     MOVEA.l D4,A0   ; D4 -> A0
-    MOVE    (A0),D5 ; D5 -> return
+    MOVE.W    (A0),D5 ; D5 -> return
     RTS
 
 SETCELL:
-    MULU    D3,D5   ; y*t -> D5
-    ADD.w   D5,D4   ; (yt + x) -> D4
-    ADD.l   #MAZE,D4 ; adresse réelle -> D4
-    MOVE.l  A0,D5   ; n -> D5
-    MOVEA.l  D4,A0  ; adresse réelle -> A0
-    MOVE    D5,(A0)
-    RTS
+        MOVE.W D5,D1        ; D1 = y
+        MULU   D3,D1        ; D1 = y * largeur
+        ADD.W  D4,D1        ; D1 = y*largeur + x
+        LSL.W  #1,D1        ; *2 pour mot (d�calage de 2 bits)
+        LEA    MAZE,A1      ; charge l'adresse de MAZE dans A1
+        ADD.W D1,A1        ; A1 = &MAZE[y][x]
+        MOVE.W D6,(A1)      ; MAZE[y][x] = D6
+
+        RTS
 
 SETSEED:
     JSR     GET_TIME
@@ -39,6 +41,11 @@ RANDOMVAL:
     MOVE.W D1,A2
     RTS
 *~Font name~Courier New~
+
+
+
+
+
 
 
 
