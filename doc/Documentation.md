@@ -7,6 +7,14 @@ Ici sont listées les variables. Sont spécifiés:
 
 ___
 
+* **PLAYER** :
+    * entier de 4o
+    * représente la postition et l'orientation du joueur dans **MAZE**
+        * le 1er octet est vide
+        * le 2eme represente l'orientation selon le format `0000NSEW`
+        * le 3eme represente x
+        * le 4eme represente y
+
 * **MAZE** :
     * tableau de 6 561 mots (=13 322o)
     * représente l'architecture du labyrinthe
@@ -19,10 +27,9 @@ ___
     * tableau de 2048 mots longs (=8192o)
     * stocke la tilesheet pour *RENDERER.X68*
     * les tiles font par défaut 32px de large et 32px de long
-    * chaque pixel est codé sur 32 bits
-    * le format de couleur est `$00BBGGRR`
+    * la couleur de chaque pixel est codé sur 32 bits au format `$00BBGGRR`
     * les tiles sont empilées en colonne
-    * > pour le moment il n'y a que 2 tiles : mur et sans mur = 
+    * > pour le moment il n'y a que 2 tiles : mur et sans mur = 8192o
 
 * **TILEREF** :
     * chaine de caractère contenant le nom du fichier de tilesheet utilisé

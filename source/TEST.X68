@@ -7,6 +7,7 @@
     ORG $1000
 START
 
+    MOVE.l  #2048,D2
     JSR     LOAD_TILESHEET
 
     JMP FINPRG
@@ -18,6 +19,7 @@ START
     INCLUDE 'BIBGRAPH.X68'
     INCLUDE 'BIBFICH.X68'
 
+    PLAYER:     DS.b 4
     MAZE:       DS.w 6561
     TILESHEET:  DS.l 2048
     TILEREF:    DC.l 'debug.tilesheet'
