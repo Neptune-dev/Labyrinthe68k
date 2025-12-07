@@ -35,9 +35,9 @@ LOAD_TILESHEET:
     JSR     CLEAR_TILESHEET ; clear
     MOVEA   #TILEREF,A1     ; on met l'adresse de notre fichier dans A1
     JSR     OPEN_FILE       ; on ouvre le fichier
-    MOVEA   #TILESHEET,A1  ; on met l'adresse de la tilesheet dans A1
+    MOVEA   #TILESHEET,A1   ; on met l'adresse de la tilesheet dans A1
     JSR     READ_FILE       ; lecture
-    JSR     CLOSE_FILE
+    JSR     CLOSE_FILE      ; fermeture du fichier
     RTS
 
 

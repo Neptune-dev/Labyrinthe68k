@@ -7,7 +7,7 @@
     ORG $1000
 START
 
-    MOVE.l  #8192,D2    ;nombre d'octets dans une texture pour 2 cases
+    MOVE.l  #12288,D2    ; nombre d'octets dans une texture pour 3 cases de 32x32
     JSR     LOAD_TILESHEET
 
     JMP FINPRG
@@ -21,7 +21,7 @@ START
 
     PLAYER:     DS.b 4
     MAZE:       DS.w 6561
-    TILESHEET:  DS.l 2048
+    TILESHEET:  DS.l 3072
     TILEREF:    DC.l 'debug.tilesheet'
     SEED:       DS.l 1
 

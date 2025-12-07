@@ -3,17 +3,17 @@ import sys
 
 def image_to_text(image_path, output_path):
     """
-    Convertit une image en fichier texte.
-    Chaque pixel est représenté par 4 caractères ASCII:
-    - Caractère 0 (NUL)
-    - Valeur Blue (0-255)
-    - Valeur Green (0-255)
-    - Valeur Red (0-255)
+    Convertit une image en fichier binaire .tilesheet.
+    Chaque pixel est représenté par 4 octets:
+    - Octet 0 : flag (0 = opaque, 255 = transparent)
+    - Octet 1 : Blue (0-255)
+    - Octet 2 : Green (0-255)
+    - Octet 3 : Red (0-255)
+    Si l'image possède un canal alpha, un pixel est considéré transparent quand alpha == 0.
     """
     try:
-        # Ouvrir l'image
-        img = Image.open(image_path)
-        img = img.convert('RGB')
+        # Ouvrir l'image en RGBA pour conserver le canal alpha
+        img = Image.open(image_path).convert('RGBA')
         
         width, height = img.size
         pixels = img.load()
@@ -22,10 +22,13 @@ def image_to_text(image_path, output_path):
         with open(output_path, 'wb') as f:
             for y in range(height):
                 for x in range(width):
-                    r, g, b = pixels[x, y]
+                    r, g, b, a = pixels[x, y]
                     
-                    # Écrire 4 caractères: NUL + B + G + R
-                    f.write(bytes([0, b, g, r]))
+                    # Si le pixel est transparent (alpha == 0), flag = 255, sinon 0
+                    flag = 255 if a == 0 else 0
+                    
+                    # Écrire 4 octets: flag + B + G + R
+                    f.write(bytes([flag, b, g, r]))
         
         print(f"Conversion réussie: {output_path}")
         print(f"Dimensions: {width}x{height}")
@@ -43,6 +46,6 @@ if __name__ == "__main__":
         sys.exit(1)
     
     image_path = sys.argv[1]
-    output_path = sys.argv[2] if len(sys.argv) > 2 else image_path.rsplit('.', 1)[0] + '.tilesheet'  # Changer l'extension en .tilesheet
+    output_path = sys.argv[2] if len(sys.argv) > 2 else image_path.rsplit('.', 1)[0] + '.tilesheet'
     
     image_to_text(image_path, output_path)

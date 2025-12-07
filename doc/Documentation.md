@@ -1,5 +1,24 @@
 # Labyrinthe68k - Documentation
 
+Répertoires :
+* **source/** :
+    * le code X68 de l'app
+    * les fichiers de texture
+    * **/includes/** :
+        * les biliotèques données par le professeur
+* **tools** :
+    * les textures non formatées pour l'app
+    * un script python qui formate les images png
+
+* **doc/** :
+    * fichiers de conception
+
+<br>
+
+___
+
+# Code X68
+
 ## Variables
 Ici sont listées les variables. Sont spécifiés:
 * La taille de la variable
@@ -24,12 +43,13 @@ ___
         * chaque case fait 16 bits
 
 * **TILESHEET** :
-    * tableau de 2048 mots longs (=8192o)
+    * tableau de 3072 mots longs (=12 288o)
+    * > pour le moment il n'y a que 3 tiles : mur, sans mur, le joueur = 12 288 octets
     * stocke la tilesheet pour *RENDERER.X68*
     * les tiles font par défaut 32px de large et 32px de long
     * la couleur de chaque pixel est codé sur 32 bits au format `$00BBGGRR`
+    * un pixel transparent à son premier octet à `$FF`
     * les tiles sont empilées en colonne
-    * > pour le moment il n'y a que 2 tiles : mur et sans mur = 8192o
 
 * **TILEREF** :
     * chaine de caractère contenant le nom du fichier de tilesheet utilisé
