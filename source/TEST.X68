@@ -7,7 +7,7 @@
     ORG $1000
 START
 
-    MOVE.l  #2048,D2
+    MOVE.l  #8192,D2    ;nombre d'octets dans une texture pour 2 cases
     JSR     LOAD_TILESHEET
 
     JMP FINPRG
@@ -15,9 +15,9 @@ START
     INCLUDE 'DATASPACE.X68'
     INCLUDE 'RENDERER.X68'
     
-    INCLUDE 'BIBLIO.X68'
-    INCLUDE 'BIBGRAPH.X68'
-    INCLUDE 'BIBFICH.X68'
+    INCLUDE 'includes/BIBLIO.X68'
+    INCLUDE 'includes/BIBGRAPH.X68'
+    INCLUDE 'includes/BIBFICH.X68'
 
     PLAYER:     DS.b 4
     MAZE:       DS.w 6561
