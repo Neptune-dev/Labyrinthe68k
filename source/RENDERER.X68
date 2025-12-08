@@ -5,21 +5,6 @@
 * Description:
 *-----------------------------------------------------------
 
-COUCOU:
-    MOVE.b  #$43,D1 ; C
-    JSR     AFFCAR
-    MOVE.b  #$4F,D1 ; O
-    JSR     AFFCAR
-    MOVE.b  #$55,D1 ; U
-    JSR     AFFCAR
-    MOVE.b  #$43,D1 ; C
-    JSR     AFFCAR
-    MOVE.b  #$4F,D1 ; O
-    JSR     AFFCAR
-    MOVE.b  #$55,D1 ; U
-    JSR     AFFCAR
-    RTS
-
 CLEAR_TILESHEET:
     MOVEA   #TILESHEET,A1  ; on met l'adresse de la tilesheet dans A1
     CLR.l   D2
@@ -42,11 +27,37 @@ LOAD_TILESHEET:
     RTS
 
 RENDER_PIXEL:
-    
+    MOVE.l  D2,D5           ; copie de la couleur dans D5
+    AND.l   #$00FFFFFF,D2   ; D2.l <- canaux RGB
+    AND.l   #$FF000000,D5   ; D5.l <- canal alpha
+    CMP.l   #$FF000000,D5   ; verification du canal alpha
+    BEQ     ALPHA_JUMP      ; on saute l'étape de dessin si le canal alpha est egale à $FF
+    MOVE.l  D2,D1
+    JSR     SET_PEN_COLOR   ; on donne la bonne couleur au crayon
+    MOVE.w  D3,D1           ; préparation des coordonées (x)
+    MOVE.w  D4,D2           ; préparation des coordonées (y)
+    JSR     DRAW_PIX        ; dessin du pixel
+ALPHA_JUMP:
+    RTS
 
 RENDER_MAZE:
-R_MAZE_FORX:
-R_MAZE_FORY:
+    MOVE.w  #0,D3           ; x = 0
+R_MAZE_FOR_X:
+    MOVE.w  #0,D4           ; y = 0
+R_MAZE_FOR_Y:
+    MOVE.l  #$00FFFFFF,D2   ; couleur du pixel
+    JSR     RENDER_PIXEL    ; rendu du pixel
+    ADD.l   #1,D4           ; y++
+    CMP.w   #480,D4       ; condition de boucle for
+    BLT     R_MAZE_FOR_Y
+
+    ADD.l   #1,D3           ; x++
+    CMP.w   #640,D4       ; condition de boucle for
+    BLT     R_MAZE_FOR_X
+    RTS
+
+RENDER_PLAYER:
+
     RTS
 
 *~Font name~Courier New~

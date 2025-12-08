@@ -119,6 +119,15 @@ ___
     * ❌ D2.l : couleur du pixel au format `$AABBGGRR` où le canal alpha ne peut être que `$00` ou `$FF`
     * ✅ D3.w : coordonnée x du pixel sur l'écran
     * ✅ D4.w : coordonnée y du pixel sur l'écran
+    * ❌ D5 : travail
+
+* **RENDER_MAZE** : *RENDERER.X68*
+    * dessine le labyrinthe contenue dans **MAZE**
+    * écrase les dessins déjà exitants
+    * ❌ D2 : travail
+    * ❌ D3 : travail
+    * ❌ D4 : travail
+
 
 
 ## Registres
@@ -127,10 +136,10 @@ ___
 |---|---|---|---|
 | D0 | ❌ | Appels systèmes |  |
 | D1 | ❌ | Appels systèmes |  |
-| D2 | ⚠️ | Appels systèmes pour l'affichage | CLEAR_TILESHEET |
-| D3 | ⚠️ |  | GETCELL, SETCELL, LOAD_TILESHEET |
-| D4 | ⚠️ |  | GETCELL, SETCELL, RANDOMVAL |
-| D5 | ⚠️ |  | GETCELL, SETCELL |
+| D2 | ⚠️ | Appels systèmes pour l'affichage | CLEAR_TILESHEET, RENDER_PIXEL, RENDER_MAZE |
+| D3 | ⚠️ |  | GETCELL, SETCELL, LOAD_TILESHEET, RENDER_PIXEL, RENDER_MAZE |
+| D4 | ⚠️ |  | GETCELL, SETCELL, RANDOMVAL, RENDER_PIXEL, RENDER_MAZE |
+| D5 | ⚠️ |  | GETCELL, SETCELL, RENDER_PIXEL |
 | D6 | ✅ |  |
 | D7 | ✅ |  |
 | A0 | ⚠️ |  | GETCELL, SETCELL |

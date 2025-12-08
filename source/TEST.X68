@@ -10,6 +10,8 @@ START
     MOVE.l  #12288,D3    ; nombre d'octets dans une texture pour 3 cases de 32x32
     JSR     LOAD_TILESHEET
 
+    JSR     RENDER_MAZE
+
     JMP FINPRG
 
     INCLUDE 'DATASPACE.X68'
