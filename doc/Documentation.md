@@ -106,7 +106,7 @@ ___
 * **LOAD_TILESHEET** : *RENDERER.X68*
     * met à 0 toute la **TILESHEET**
     * charge dans **TILESHEET** le fichier **TILEREF**
-    * ❌ D2.l : taille attendue de la tilesheet (en octets)
+    * ❌ D3.l : taille attendue de la tilesheet (en octets)
 
 
 ## Registres
@@ -116,7 +116,7 @@ ___
 | D0 | ❌ | Appels systèmes |  |
 | D1 | ❌ | Appels systèmes |  |
 | D2 | ⚠️ | Appels systèmes pour l'affichage | CLEAR_TILESHEET |
-| D3 | ⚠️ |  | GETCELL, SETCELL |
+| D3 | ⚠️ |  | GETCELL, SETCELL, LOAD_TILESHEET |
 | D4 | ⚠️ |  | GETCELL, SETCELL, RANDOMVAL |
 | D5 | ⚠️ |  | GETCELL, SETCELL |
 | D6 | ✅ |  |
