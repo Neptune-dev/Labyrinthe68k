@@ -27,7 +27,7 @@ FORCLEAR:
     CLR.l   (A1)
     ADDA.l   D2,A1
     ADD.l   #4,D2
-    CMP     #8192,D2
+    CMP     D3,D2
     BLT     FORCLEAR
     RTS
 
@@ -41,6 +41,13 @@ LOAD_TILESHEET:
     JSR     CLOSE_FILE      ; fermeture du fichier
     RTS
 
+RENDER_PIXEL:
+    
+
+RENDER_MAZE:
+R_MAZE_FORX:
+R_MAZE_FORY:
+    RTS
 
 *~Font name~Courier New~
 *~Font size~10~

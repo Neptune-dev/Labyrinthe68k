@@ -1,5 +1,10 @@
 # Labyrinthe68k - Documentation
 
+
+Par convention, on décide que l'écran de jeu fait 640 x 480 px.
+
+___
+
 Répertoires :
 * **source/** :
     * le code X68 de l'app
@@ -102,11 +107,18 @@ ___
     * met à 0 toute la **TILESHEET**
     * ❌ A1 : travail
     * ❌ D2 : travail
+    * ✅ D3.l : taille attendue de la tilesheet (en octets)
 
 * **LOAD_TILESHEET** : *RENDERER.X68*
     * met à 0 toute la **TILESHEET**
     * charge dans **TILESHEET** le fichier **TILEREF**
-    * ❌ D3.l : taille attendue de la tilesheet (en octets)
+    * ✅ D3.l : taille attendue de la tilesheet (en octets)
+
+* **RENDER_PIXEL** : *RENDERER.X68*
+    * dessine un pixel
+    * ❌ D2.l : couleur du pixel au format `$AABBGGRR` où le canal alpha ne peut être que `$00` ou `$FF`
+    * ✅ D3.w : coordonnée x du pixel sur l'écran
+    * ✅ D4.w : coordonnée y du pixel sur l'écran
 
 
 ## Registres
