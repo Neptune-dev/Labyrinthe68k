@@ -52,7 +52,7 @@ R_MAZE_FOR_Y:
     BLT     R_MAZE_FOR_Y
 
     ADD.l   #1,D3           ; x++
-    CMP.w   #640,D4       ; condition de boucle for
+    CMP.w   #640,D3      ; condition de boucle for
     BLT     R_MAZE_FOR_X
     RTS
 
