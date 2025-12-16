@@ -115,7 +115,13 @@ ___
     * ✅ D3.l : taille attendue de la tilesheet (en octets)
 
 * **RENDER_PIXEL** : *RENDERER.X68*
-    * dessine un pixel
+    * dessine un pixel en RGB
+    * ❌ D2.l : couleur du pixel au format `$00BBGGRR`
+    * ✅ D3.w : coordonnée x du pixel sur l'écran
+    * ✅ D4.w : coordonnée y du pixel sur l'écran
+
+* **RENDER_PIXEL_ALPHA** : *RENDERER.X68*
+    * dessine un pixel en RGBa
     * ❌ D2.l : couleur du pixel au format `$AABBGGRR` où le canal alpha ne peut être que `$00` ou `$FF`
     * ✅ D3.w : coordonnée x du pixel sur l'écran
     * ✅ D4.w : coordonnée y du pixel sur l'écran
@@ -136,9 +142,9 @@ ___
 |---|---|---|---|
 | D0 | ❌ | Appels systèmes |  |
 | D1 | ❌ | Appels systèmes |  |
-| D2 | ⚠️ | Appels systèmes pour l'affichage | CLEAR_TILESHEET, RENDER_PIXEL, RENDER_MAZE |
-| D3 | ⚠️ |  | GETCELL, SETCELL, LOAD_TILESHEET, RENDER_PIXEL, RENDER_MAZE |
-| D4 | ⚠️ |  | GETCELL, SETCELL, RANDOMVAL, RENDER_PIXEL, RENDER_MAZE |
+| D2 | ⚠️ | Appels systèmes pour l'affichage | CLEAR_TILESHEET, RENDER_PIXEL, RENDER_PIXEL_ALPHA, RENDER_MAZE |
+| D3 | ⚠️ |  | GETCELL, SETCELL, LOAD_TILESHEET, RENDER_PIXEL, RENDER_PIXEL_ALPHA, RENDER_MAZE |
+| D4 | ⚠️ |  | GETCELL, SETCELL, RANDOMVAL, RENDER_PIXEL, RENDER_PIXEL_ALPHA, RENDER_MAZE |
 | D5 | ⚠️ |  | GETCELL, SETCELL, RENDER_PIXEL |
 | D6 | ✅ |  |
 | D7 | ✅ |  |

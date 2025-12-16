@@ -27,6 +27,14 @@ LOAD_TILESHEET:
     RTS
 
 RENDER_PIXEL:
+    MOVE.l  D2,D1
+    JSR     SET_PEN_COLOR   ; on donne la bonne couleur au crayon
+    MOVE.w  D3,D1           ; préparation des coordonées (x)
+    MOVE.w  D4,D2           ; préparation des coordonées (y)
+    JSR     DRAW_PIX        ; dessin du pixel
+    RTS
+
+RENDER_PIXEL_ALPHA:
     MOVE.l  D2,D5           ; copie de la couleur dans D5
     AND.l   #$00FFFFFF,D2   ; D2.l <- canaux RGB
     AND.l   #$FF000000,D5   ; D5.l <- canal alpha
