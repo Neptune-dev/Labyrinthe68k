@@ -100,9 +100,6 @@ ___
     * ✅ D4 : n
     * **retour** : A2
 
-* **COUCOU** : *RENDERER.X68*
-    * écrit coucou sur la sortie standard
-
 * **CLEAR_TILESHEET** : *RENDERER.X68*
     * met à 0 toute la **TILESHEET**
     * ❌ A1 : travail

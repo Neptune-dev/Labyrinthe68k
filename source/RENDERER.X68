@@ -49,19 +49,25 @@ ALPHA_JUMP:
     RTS
 
 RENDER_MAZE:
-    MOVE.w  #0,D3           ; x = 0
+    MOVE.w  #640,D3           ; x = 640 | dans D3 car la couleur aussi a besoin de D1
 R_MAZE_FOR_X:
-    MOVE.w  #0,D4           ; y = 0
+    MOVE.w  #480,D2           ; y = 480 | ce registre ne va pas changer d'usage
 R_MAZE_FOR_Y:
-    MOVE.l  #$00FFFFFF,D2   ; couleur du pixel
-    JSR     RENDER_PIXEL    ; rendu du pixel
-    ADD.l   #1,D4           ; y++
-    CMP.w   #480,D4       ; condition de boucle for
-    BLT     R_MAZE_FOR_Y
+    MOVE.l  #$00FFFFFF,D1   ; couleur du pixel
 
-    ADD.l   #1,D3           ; x++
-    CMP.w   #640,D3      ; condition de boucle for
-    BLT     R_MAZE_FOR_X
+    MOVE    #81,D0
+    TRAP    #15             ; on donne la bonne couleur au crayon
+
+    MOVE.w  D3,D1           ; préparation des coordonées (x)
+
+    MOVE    #82,D0
+    TRAP    #15             ; dessin du pixel
+
+    SUBQ.w  #1,D2          ; y--
+    BGT     R_MAZE_FOR_Y    ; condition de boucle for (y > 0)
+
+    SUBQ.w  #1,D3           ; x--
+    BGT     R_MAZE_FOR_X    ; condition de boucle for (x > 0)
     RTS
 
 RENDER_PLAYER:
