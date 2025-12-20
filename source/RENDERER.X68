@@ -55,7 +55,7 @@ R_MAZE_FOR_X:
     MOVE.w  #478,D2           ; y1 = 478 | ce registre ne va pas changer d'usage
     MOVE.w  #480,D4           ; y2 = 480 | ce registre ne va pas changer d'usage
 R_MAZE_FOR_Y:
-    MOVE.l  #$00FFFFFF,D1   ; couleur du pixel upscalé
+    MOVE.l  #$00FFFFFF,D1   ; couleur du pixel dans la tilesheet
 
     MOVE    #80,D0
     TRAP    #15             ; on donne la bonne couleur au crayon

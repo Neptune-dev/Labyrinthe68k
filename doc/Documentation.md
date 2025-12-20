@@ -130,6 +130,7 @@ ___
     * ❌ D2 : travail
     * ❌ D3 : travail
     * ❌ D4 : travail
+    * ❌ D5 : travail
 
 
 
@@ -142,7 +143,7 @@ ___
 | D2 | ⚠️ | Appels systèmes pour l'affichage | CLEAR_TILESHEET, RENDER_PIXEL, RENDER_PIXEL_ALPHA, RENDER_MAZE |
 | D3 | ⚠️ |  | GETCELL, SETCELL, LOAD_TILESHEET, RENDER_PIXEL, RENDER_PIXEL_ALPHA, RENDER_MAZE |
 | D4 | ⚠️ |  | GETCELL, SETCELL, RANDOMVAL, RENDER_PIXEL, RENDER_PIXEL_ALPHA, RENDER_MAZE |
-| D5 | ⚠️ |  | GETCELL, SETCELL, RENDER_PIXEL |
+| D5 | ⚠️ |  | GETCELL, SETCELL, RENDER_PIXEL, RENDER_MAZE |
 | D6 | ✅ |  |
 | D7 | ✅ |  |
 | A0 | ⚠️ |  | GETCELL, SETCELL |
