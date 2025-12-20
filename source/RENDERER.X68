@@ -49,24 +49,31 @@ ALPHA_JUMP:
     RTS
 
 RENDER_MAZE:
-    MOVE.w  #640,D3           ; x = 640 | dans D3 car la couleur aussi a besoin de D1
+    MOVE.w  #638,D5           ; x1 = 638 | dans D5 car la couleur aussi a besoin de D1
+    MOVE.w  #640,D3           ; x2 = 640 | ce registre ne va pas changer d'usage
 R_MAZE_FOR_X:
-    MOVE.w  #480,D2           ; y = 480 | ce registre ne va pas changer d'usage
+    MOVE.w  #478,D2           ; y1 = 478 | ce registre ne va pas changer d'usage
+    MOVE.w  #480,D4           ; y2 = 480 | ce registre ne va pas changer d'usage
 R_MAZE_FOR_Y:
-    MOVE.l  #$00FFFFFF,D1   ; couleur du pixel
+    MOVE.l  #$00FFFFFF,D1   ; couleur du pixel upscalé
 
-    MOVE    #81,D0
+    MOVE    #80,D0
     TRAP    #15             ; on donne la bonne couleur au crayon
 
-    MOVE.w  D3,D1           ; préparation des coordonées (x)
+    MOVE    #81,D0
+    TRAP    #15             ; couleur de remplissage
 
-    MOVE    #82,D0
-    TRAP    #15             ; dessin du pixel
+    MOVE.w  D5,D1           ; préparation des coordonées (x)
 
-    SUBQ.w  #1,D2          ; y--
+    MOVE    #87,D0
+    TRAP    #15             ; dessin du rectangle
+
+    SUBQ.w  #2,D2           ; y1 = y1-2
+    SUBQ.w  #2,D4           ; y2 = y2-2
     BGT     R_MAZE_FOR_Y    ; condition de boucle for (y > 0)
 
-    SUBQ.w  #1,D3           ; x--
+    SUBQ.w  #2,D5           ; x1 = x1-2
+    SUBQ.w  #2,D3           ; x2 = x2-2
     BGT     R_MAZE_FOR_X    ; condition de boucle for (x > 0)
     RTS
 
