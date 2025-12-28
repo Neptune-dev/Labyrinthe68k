@@ -127,6 +127,7 @@ ___
 * **RENDER_MAZE** : *RENDERER.X68*
     * dessine le labyrinthe contenue dans **MAZE**
     * écrase les dessins déjà exitants
+    * ✅ D6 : couleur de l'écran
     * ❌ D2 : travail
     * ❌ D3 : travail
     * ❌ D4 : travail
@@ -144,8 +145,8 @@ ___
 | D3 | ⚠️ |  | GETCELL, SETCELL, LOAD_TILESHEET, RENDER_PIXEL, RENDER_PIXEL_ALPHA, RENDER_MAZE |
 | D4 | ⚠️ |  | GETCELL, SETCELL, RANDOMVAL, RENDER_PIXEL, RENDER_PIXEL_ALPHA, RENDER_MAZE |
 | D5 | ⚠️ |  | GETCELL, SETCELL, RENDER_PIXEL, RENDER_MAZE |
-| D6 | ✅ |  |
-| D7 | ✅ |  |
+| D6 | ⚠️ |  | RENDER_MAZE |
+| D7 | ✅ |  |  |
 | A0 | ⚠️ |  | GETCELL, SETCELL |
 | A1 | ⚠️ |  | LOAD_TILESHEET, CLEAR_TILESHEET |
 | A2 | ⚠️ |  | RANDOMVAL |

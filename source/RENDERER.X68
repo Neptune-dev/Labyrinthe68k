@@ -55,17 +55,17 @@ R_MAZE_FOR_X:
     MOVE.w  #478,D2           ; y1 = 478 | ce registre ne va pas changer d'usage
     MOVE.w  #480,D4           ; y2 = 480 | ce registre ne va pas changer d'usage
 R_MAZE_FOR_Y:
-    MOVE.l  #$00FFFFFF,D1   ; couleur du pixel dans la tilesheet
+    MOVE.l  D6,D1   ; couleur du pixel dans la tilesheet
 
-    MOVE    #80,D0
+    MOVE    #80,D0          ; SET_PEN_COLOR
     TRAP    #15             ; on donne la bonne couleur au crayon
 
-    MOVE    #81,D0
+    MOVE    #81,D0          ; SET_FILL_COLOR
     TRAP    #15             ; couleur de remplissage
 
     MOVE.w  D5,D1           ; préparation des coordonées (x)
 
-    MOVE    #87,D0
+    MOVE    #87,D0          ; DRAW_FILL_RECT
     TRAP    #15             ; dessin du rectangle
 
     SUBQ.w  #2,D2           ; y1 = y1-2
@@ -75,6 +75,10 @@ R_MAZE_FOR_Y:
     SUBQ.w  #2,D5           ; x1 = x1-2
     SUBQ.w  #2,D3           ; x2 = x2-2
     BGT     R_MAZE_FOR_X    ; condition de boucle for (x > 0)
+
+    MOVE    #94,D0          ; SWAP_SCREEN
+    TRAP    #15
+
     RTS
 
 RENDER_PLAYER:

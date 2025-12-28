@@ -7,9 +7,22 @@
     ORG $1000
 START
 
-    MOVE.l  #12288,D3    ; nombre d'octets dans une texture pour 3 cases de 32x32
+    MOVE.l  #12288,D3       ; nombre d'octets dans une texture pour 3 cases de 32x32
     JSR     LOAD_TILESHEET
 
+    MOVE.b  #17,D1          ; preparation du dessin
+    JSR     DRAW_MODE
+
+    MOVE.l  #$00FFFFFF,D6
+    JSR     RENDER_MAZE
+
+    MOVE.l  #$00FF0000,D6
+    JSR     RENDER_MAZE
+
+    MOVE.l  #$0000FF00,D6
+    JSR     RENDER_MAZE
+
+    MOVE.l  #$000000FF,D6
     JSR     RENDER_MAZE
 
     JMP FINPRG
