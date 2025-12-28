@@ -2,15 +2,16 @@
 * Title      : DATASPACE
 * Written by : Felix LADISLAS & Lucas DELCROIX
 * Date       : 2025
-* Description:
+* Description: 
 *-----------------------------------------------------------
 
 GETCELL:
-    MULU    D3,D5   ; y*t -> D5
-    ADD.w   D5,D4   ; (yt + x) -> D4
-    ADD.l   #MAZE,D4 ; adresse réelle -> D4
-    MOVEA.l D4,A0   ; D4 -> A0
-    MOVE.W    (A0),D5 ; D5 -> return
+    MULU    D3,D5       ; D5 = Y * largeur
+    ADD.W   D5,D4       ; D4 = X + Y*largeur
+    LSL.W   #1,D4       ; *2 pour que ce soit valide pour un mot
+    LEA     MAZE,A0
+    ADD.W   D4,A0       ; A0 = &MAZE[Y][X]
+    MOVE.W  (A0),D5     ; D5 = valeur
     RTS
 
 SETCELL:
@@ -40,6 +41,9 @@ RANDOMVAL:
     SWAP    D1
     MOVE.W  D1,A2
     RTS
+
+
+
 
 
 
