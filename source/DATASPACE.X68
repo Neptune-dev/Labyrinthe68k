@@ -28,19 +28,27 @@ SETCELL:
 SETSEED:
     JSR     GET_TIME
     MOVE.L  D1,SEED
-    RTS
-
+	RTS
 RANDOMVAL:
     MOVE.L  SEED,D0
-    MULU    #25173,D0
-    ADD.L   #13849,D0
-    MOVE.L  D0,SEED
+    MULU    #3,D0			; D0=D0*3
+    ADD.L   #71,D0			; D0=D0*3 +71 (LCG)
+    MOVE.L  D0,SEED        ; mettre à jour la seed
 
-    MOVE.W  SEED,D1
-    DIVU    D4,D1
-    SWAP    D1
-    MOVE.W  D1,A2
+    MOVE.L  SEED,D1
+
+    MOVE.W  D4,D2           ; D4 borne supérieure
+    SUB.W  #1,D2           ; D2 = D4 - 1
+    DIVU    D2,D1           ; D1 = SEED mod D2 -> valeur [0..D4-1]
+	SWAP	D1
+    ADD.W  #1,D1           ; valeur finale dans [1..D4-1]
+
+    MOVE.W  D1,A2           ; renvoie la valeur dans A2
     RTS
+
+
+
+
 
 
 

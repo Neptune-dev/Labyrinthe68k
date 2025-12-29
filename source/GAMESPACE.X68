@@ -56,23 +56,24 @@ LOOP:
     BNE   LOOP		; pas fini ? continue
 
 TOUSEGAUX:
-    MOVE   #1,D0        ; TRUE
+    MOVE   #1,D4        ; TRUE
     RTS
 
 PASEGAUX:
-    MOVE   #0,D0        ; FALSE
+    MOVE   #0,D4        ; FALSE
     RTS
 
 PROPAGERVALEUR:
-        MOVE.W  (A1),D2            ; lire la valeur actuelle
-        CMP.W   D0,D2              ; comparer avec l'ancienne valeur
+        MOVE.W  (A1),D3            ; lire la valeur actuelle
+        CMP.W   D1,D3              ; comparer avec l'ancienne valeur
         BNE     SKIP_PROPAGE       ; si différent, passe à la suivante
-        MOVE.W  D1,(A1)            ; sinon, remplacer par D1
+        MOVE.W  D2,(A1)            ; sinon, remplacer par D1
 SKIP_PROPAGE:
         ADD.L  #2,A1              ; passer à la case suivante
         SUB.L  #1,D3
         BNE     PROPAGERVALEUR
 		RTS
+
 
 
 
