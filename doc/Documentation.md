@@ -132,6 +132,12 @@ ___
     * ❌ D3 : travail
     * ❌ D4 : travail
     * ❌ D5 : travail
+    * ❌ D6 : travail
+    * ❌ D7 : travail
+    * ❌ A1 : travail
+    * ❌ A2 : travail
+    * ❌ A3 : travail
+    * ❌ A5 : travail
 
 
 
@@ -146,12 +152,12 @@ ___
 | D4 | ⚠️ |  | GETCELL, SETCELL, RANDOMVAL, RENDER_PIXEL, RENDER_PIXEL_ALPHA, RENDER_MAZE |
 | D5 | ⚠️ |  | GETCELL, SETCELL, RENDER_PIXEL, RENDER_MAZE |
 | D6 | ⚠️ |  | RENDER_MAZE |
-| D7 | ✅ |  |  |
+| D7 | ⚠️ |  | RENDER_MAZE |
 | A0 | ⚠️ |  | GETCELL, SETCELL |
-| A1 | ⚠️ |  | LOAD_TILESHEET, CLEAR_TILESHEET |
-| A2 | ⚠️ |  | RANDOMVAL |
-| A3 | ✅ |  |  |
-| A4 | ✅ |  |  |
-| A5 | ✅ |  |  |
+| A1 | ⚠️ |  | LOAD_TILESHEET, CLEAR_TILESHEET, RENDER_MAZE |
+| A2 | ⚠️ |  | RANDOMVAL, RENDER_MAZE |
+| A3 | ⚠️ |  | RENDER_MAZE |
+| A4 | ⚠️ |  | RENDER_MAZE |
+| A5 | ⚠️ |  | RENDER_MAZE |
 | A6 | ✅ |  |  |
 | A7 | ✅ |  |  |

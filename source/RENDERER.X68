@@ -49,13 +49,26 @@ ALPHA_JUMP:
     RTS
 
 RENDER_MAZE:
+    MOVEA.l     #PLAYER,A1          ; adresse des propriétés du joueur
+    MOVE.l      (A1),D6             ; récupération des données
+    MOVE.l      D6,D7               ; copie
+    AND.l       #$FF00,D6           ; D6 = player.x
+    AND.l       #$FF00,D7           ; D7 = player.y
+    MOVEA       #TILESHEET,A1       ; (A1) = tilesheet
+    MOVEA.l     D6,A2               ; A2 = player.x
+    MOVEA.l     D7,A3               ; A3 = player.y
+    MOVEA.l     #MAZE,A4            ; (A4) = maze
+
     MOVE.w  #638,D5           ; x1 = 638 | dans D5 car la couleur aussi a besoin de D1
     MOVE.w  #640,D3           ; x2 = 640 | ce registre ne va pas changer d'usage
 R_MAZE_FOR_X:
     MOVE.w  #478,D2           ; y1 = 478 | ce registre ne va pas changer d'usage
     MOVE.w  #480,D4           ; y2 = 480 | ce registre ne va pas changer d'usage
 R_MAZE_FOR_Y:
-    MOVE.l  D6,D1   ; couleur du pixel dans la tilesheet
+
+    
+
+    MOVE.l  A5,D1           ; couleur du pixel dans la tilesheet
 
     MOVE    #80,D0          ; SET_PEN_COLOR
     TRAP    #15             ; on donne la bonne couleur au crayon

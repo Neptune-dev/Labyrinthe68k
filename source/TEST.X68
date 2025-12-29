@@ -13,16 +13,16 @@ START
     MOVE.b  #17,D1          ; preparation du dessin
     JSR     DRAW_MODE
 
-    MOVE.l  #$00FFFFFF,D6
+    MOVEA.l  #$00FFFFFF,A5
     JSR     RENDER_MAZE
 
-    MOVE.l  #$00FF0000,D6
+    MOVEA.l  #$00FF0000,A5
     JSR     RENDER_MAZE
 
-    MOVE.l  #$0000FF00,D6
+    MOVEA.l  #$0000FF00,A5
     JSR     RENDER_MAZE
 
-    MOVE.l  #$000000FF,D6
+    MOVEA.l  #$000000FF,A5
     JSR     RENDER_MAZE
 
 
@@ -37,22 +37,18 @@ MAIN:
     BEQ     S_INPUT
     CMP.b   #$64,D1     ; d
     BEQ     D_INPUT
-    BRA     ELSE_INPUT  ; else
 
 Z_INPUT:
-    MOVE.l  #$00000000,D6
+    MOVEA.l  #$00000000,A5
     BRA     CONTINUE
 Q_INPUT:
-    MOVE.l  #$00FF0000,D6
+    MOVEA.l  #$00FF0000,A5
     BRA     CONTINUE
 S_INPUT:
-    MOVE.l  #$0000FF00,D6
+    MOVEA.l  #$0000FF00,A5
     BRA     CONTINUE
 D_INPUT:
-    MOVE.l  #$000000FF,D6
-    BRA     CONTINUE
-ELSE_INPUT:
-    MOVE.l  #$00000000,D6
+    MOVEA.l  #$000000FF,A5
 
 CONTINUE:
     JSR     RENDER_MAZE
