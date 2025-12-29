@@ -127,7 +127,6 @@ ___
 * **RENDER_MAZE** : *RENDERER.X68*
     * dessine le labyrinthe contenue dans **MAZE**
     * écrase les dessins déjà exitants
-    * ✅ D6 : couleur de l'écran
     * ❌ D2 : travail
     * ❌ D3 : travail
     * ❌ D4 : travail
@@ -137,6 +136,7 @@ ___
     * ❌ A1 : travail
     * ❌ A2 : travail
     * ❌ A3 : travail
+    * ❌ A4 : travail
     * ❌ A5 : travail
 
 
