@@ -7,22 +7,19 @@
     ORG $1000
 START
 
+    ; --- init renderer  ---
     MOVE.l  #12288,D3       ; nombre d'octets dans une texture pour 3 cases de 32x32
     JSR     LOAD_TILESHEET
-
     MOVE.b  #17,D1          ; preparation du dessin
     JSR     DRAW_MODE
 
-    MOVEA.l  #$00FFFFFF,A5
-    JSR     RENDER_MAZE
+    ; --- init labyrinthe  ---
+    MOVE.W  TAILLE,D3
+    JSR     INIT_MAZE
+    JSR     BAKE_MAZE
 
-    MOVEA.l  #$00FF0000,A5
-    JSR     RENDER_MAZE
+    MOVE.l  #$00FF0403,PLAYER    ; position (4;3)
 
-    MOVEA.l  #$0000FF00,A5
-    JSR     RENDER_MAZE
-
-    MOVEA.l  #$000000FF,A5
     JSR     RENDER_MAZE
 
 
@@ -57,6 +54,7 @@ CONTINUE:
     JMP FINPRG
 
     INCLUDE 'DATASPACE.X68'
+    INCLUDE 'GAMESPACE.X68'
     INCLUDE 'RENDERER.X68'
     
     INCLUDE 'includes/BIBLIO.X68'
@@ -66,6 +64,9 @@ CONTINUE:
 
     PLAYER:     DS.b 4
     MAZE:       DS.w 6561
+    BAKED:      DS.l 6718464
+    TAILLE:  DC.W    9 ; taille d'une ligne du tableau
+    TAILLE_TOTAL:	DC.L	TAILLE*TAILLE ; nombre de cases total du labyrinthe
     TILESHEET:  DS.l 3072
     TILEREF:    DC.l 'debug.tilesheet'
     SEED:       DS.l 1
