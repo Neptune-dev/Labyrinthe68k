@@ -80,12 +80,11 @@ LOOP_FUSION:
     BEQ FIN
 
     ; --- Gï¿½nï¿½rer coordonnï¿½es alï¿½atoires X et Y ---
-    MOVE.L TAILLE_TOTAL,D4
+    MOVE.W TAILLE,D4
     JSR RANDOMVAL
     MOVE.L A2,D6        ; D6 = X
     MOVE.L D6,X_MUR
 
-    MOVE.L TAILLE_TOTAL,D4
     JSR RANDOMVAL
     MOVE.L A2,D7        ; D7 = Y
     MOVE.L D7,Y_MUR
@@ -118,25 +117,26 @@ CAS_Y_PAIR:
 
 ; --- Cas X pair, Y impair ---
 X_PAIR_Y_IMPAIR:
-    MOVE.L TAILLE_TOTAL,D3
-    MOVE.W X_MUR,D4
-    MOVE.W Y_MUR,D5
-    ADD.W #1,D4
+    MOVE.W TAILLE,D3
+    MOVE.L X_MUR,D4
+    MOVE.L Y_MUR,D5
+    ADD.L #1,D4
     JSR GETCELL
-    MOVE.W D5,VALEURBAS
-    MOVE.W Y_MUR,D5
-    SUB.W #2,D4
+    MOVE.L D5,VALEURBAS
+    MOVE.L	X_MUR,D4
+    MOVE.L 	Y_MUR,D5
+    SUB.L #2,D5
     JSR GETCELL
-    MOVE.W D5,VALEURHAUT
+    MOVE.L D5,VALEURHAUT
     CMP.W VALEURBAS,D5
     BEQ LOOP_FUSION
-    MOVE.L TAILLE_TOTAL,D3
-    MOVE.W X_MUR,D4
-    MOVE.W Y_MUR,D5
+    MOVE.W TAILLE,D3
+    MOVE.L X_MUR,D4
+    MOVE.L Y_MUR,D5
     MOVE.L #0,A0
     JSR SETCELL
-    MOVE.W VALEURBAS,D1
-    MOVE.W VALEURHAUT,D2
+    MOVE.L VALEURBAS,D1
+    MOVE.L VALEURHAUT,D2
     MOVE.L TAILLE_TOTAL,D3
     MOVE.L A0,D4
     MOVE.L A1,D5
@@ -145,26 +145,27 @@ X_PAIR_Y_IMPAIR:
 
 ; --- Cas X impair, Y pair ---
 X_IMPAIR_Y_PAIR:
-    MOVE.L TAILLE_TOTAL,D3
-    MOVE.W X_MUR,D4
-    MOVE.W Y_MUR,D5
-    ADD.W #1,D5
+    MOVE.W TAILLE,D3
+    MOVE.L X_MUR,D4
+    MOVE.L Y_MUR,D5
+    ADD.L #1,D5
     JSR GETCELL
-    MOVE.W D5,VALEURDROITE
-    MOVE.W Y_MUR,D5
-    SUB.W #2,D4
+    MOVE.L D5,VALEURDROITE
+    MOVE.L	X_MUR,D4
+    MOVE.L 	Y_MUR,D5
+    SUB.L #2,D5
     JSR GETCELL
-    MOVE.W D5,VALEURGAUCHE
-    CMP.W VALEURDROITE,D5
+    MOVE.L D5,VALEURGAUCHE
+    CMP.L VALEURDROITE,D5
     BEQ LOOP_FUSION
-    MOVE.L TAILLE_TOTAL,D3
-    MOVE.W X_MUR,D4
-    MOVE.W Y_MUR,D5
+    MOVE.W TAILLE,D3
+    MOVE.L X_MUR,D4
+    MOVE.L Y_MUR,D5
     MOVE.L #0,A0
     JSR SETCELL
     MOVE.W VALEURGAUCHE,D1
     MOVE.W VALEURDROITE,D2
-    MOVE.L TAILLE_TOTAL,D3
+    MOVE.W TAILLE_TOTAL,D3
     MOVE.L A0,D4
     MOVE.L A1,D5
     JSR PROPAGERVALEUR
@@ -173,6 +174,23 @@ X_IMPAIR_Y_PAIR:
 FIN:
     RTS
 
+TABLEAU_RENDERING:
+        TST.L   D0              ; si D0 = 0, ne rien faire
+        BEQ     END
+
+BOUCLE_TAB:
+        CMP.W   #1, (A0)
+        BEQ     CONTINUE
+
+        CLR.W   (A0)
+
+CONTINUE:
+        ADDQ.L  #2, A0          ; élément suivant
+        SUBQ.L  #1, D0          ; décrémente compteur
+        BNE     BOUCLE_TAB       ; tant que D0 ? 0, on boucle
+
+END:
+        RTS
 
 
 
