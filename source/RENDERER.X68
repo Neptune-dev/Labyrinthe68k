@@ -94,16 +94,12 @@ RENDER_PLAYER:
     RTS
 
 RENDER_MAZE:
-    ; MOVEA.l     #PLAYER,A1          ; adresse des propriétés du joueur
-    ; MOVE.l      (A1),D6             ; récupération des données
     MOVE.l      PLAYER,D6           ; récupération des données
     MOVE.l      D6,D7               ; copie
     AND.l       #$FF00,D6           ; D6 = player.x
     AND.l       #$FF,D7             ; D7 = player.y
-    MOVEA.l     #TILESHEET,A1       ; (A1) = tilesheet
-    MOVEA.l     D6,A2               ; A2 = player.x
-    MOVEA.l     D7,A3               ; A3 = player.y
-    MOVEA.l     #MAZE,A4            ; (A4) = maze
+    MOVEA.l     D6,A1               ; A1 = player.x
+    MOVEA.l     D7,A2               ; A2 = player.y
 
     MOVE.w  #638,D5           ; x1 = 638 | dans D5 car la couleur aussi a besoin de D1
     MOVE.w  #640,D3           ; x2 = 640 | ce registre ne va pas changer d'usage
@@ -112,19 +108,36 @@ R_MAZE_FOR_X:
     MOVE.w  #480,D4           ; y2 = 480 | ce registre ne va pas changer d'usage
 R_MAZE_FOR_Y:
 
-    MOVE.w  D5,D6           ; recupération x pour lien avec la tilesheet
+    MOVE.w  D5,D6           ; recupération x pour changer le bake
 
     DIVU    #64,D6          ; D6 <- x // 64 (32*2 car upscaling)
 
     MOVE.l  #$FFFF,D7       ; masque
     AND.l   D6,D7           ; D7 = q = tile
 
-    ADD.l   A2,D7           ; on ajoute la position du joueur pour avoir le bon offset
+    ADD.l   A1,D7           ; on ajoute la position du joueur pour avoir le bon offset
     SUBI.l  #4,D7           ; offset parce que le joueur est au milieu de l'ecran
 
     ASR.l   #8,D6           ; double shift d'un octet
     ASR.l   #8,D6           ; D6 = r = pixel (upscale)
 
+    MOVEA.l D6,A3           ; on stocke les valeurs pour plus tard
+    MOVEA.l D7,A4
+
+    MOVE.w  D2,D6           ; recupération y pour changer le bake
+
+    DIVU    #64,D6          ; D6 <- y // 64 (32*2 car upscaling)
+
+    MOVE.l  #$FFFF,D7       ; masque
+    AND.l   D6,D7           ; D7 = q = tile
+
+    ADD.l   A2,D7           ; on ajoute la position du joueur pour avoir le bon offset
+    SUBI.l  #3,D7           ; offset parce que le joueur est au milieu de l'ecran
+
+    ASR.l   #8,D6           ; double shift d'un octet
+    ASR.l   #8,D6           ; D6 = r = pixel (upscale)
+
+    
 
     MOVE.l  A5,D1           ; couleur du pixel dans la tilesheet
 

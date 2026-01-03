@@ -160,7 +160,6 @@ ___
     * ❌ A3 : travail
     * ❌ A4 : travail
     * ❌ A5 : travail
-    * ❌ A6 : travail
 
 
 
@@ -182,5 +181,5 @@ ___
 | A3 | ⚠️ |  | RENDER_MAZE |
 | A4 | ⚠️ |  | RENDER_MAZE |
 | A5 | ⚠️ |  | RENDER_MAZE |
-| A6 | ⚠️ |  | RENDER_MAZE |
+| A6 | ✅ |  |  |
 | A7 | ✅ |  |  |
