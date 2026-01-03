@@ -36,12 +36,24 @@ MAIN:
     BEQ     D_INPUT
 
 Z_INPUT:
+    ADD.l   #$1,PLAYER          ; player.y += 1
+    CLR.w   PLAYER              ; player.orientation = 0
+    OR.w    #$8,PLAYER          ; player.orientation = 00001000
     BRA     CONTINUE
 Q_INPUT:
+    SUB.l   #$100,PLAYER        ; player.x -= 1
+    CLR.w   PLAYER              ; player.orientation = 0
+    OR.w    #$1,PLAYER          ; player.orientation = 00000001
     BRA     CONTINUE
 S_INPUT:
+    SUB.l   #$1,PLAYER          ; player.y -= 1
+    CLR.w   PLAYER              ; player.orientation = 0
+    OR.w    #$4,PLAYER          ; player.orientation = 00000100
     BRA     CONTINUE
 D_INPUT:
+    ADD.l   #$100,PLAYER        ; player.x += 1
+    CLR.w   PLAYER              ; player.orientation = 0
+    OR.w    #$2,PLAYER          ; player.orientation = 00000010
 
 CONTINUE:
     JSR     RENDER_MAZE ; rendu
