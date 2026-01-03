@@ -6,7 +6,7 @@
 *-----------------------------------------------------------
 
 CLEAR_TILESHEET:
-    MOVEA   #TILESHEET,A1  ; on met l'adresse de la tilesheet dans A1
+    MOVEA.l #TILESHEET,A1  ; on met l'adresse de la tilesheet dans A1
     CLR.l   D2
 FORCLEAR:
     CLR.l   (A1)
@@ -18,9 +18,9 @@ FORCLEAR:
 
 LOAD_TILESHEET:
     JSR     CLEAR_TILESHEET ; clear
-    MOVEA   #TILEREF,A1     ; on met l'adresse de notre fichier dans A1
+    MOVEA.l #TILEREF,A1     ; on met l'adresse de notre fichier dans A1
     JSR     OPEN_FILE       ; on ouvre le fichier
-    MOVEA   #TILESHEET,A1   ; on met l'adresse de la tilesheet dans A1
+    MOVEA.L #TILESHEET,A1   ; on met l'adresse de la tilesheet dans A1
     MOVE    D3,D2           ; spécifiction du nombre d'octet à lire
     JSR     READ_FILE       ; lecture
     JSR     CLOSE_FILE      ; fermeture du fichier
@@ -100,7 +100,7 @@ RENDER_MAZE:
     MOVE.l      D6,D7               ; copie
     AND.l       #$FF00,D6           ; D6 = player.x
     AND.l       #$FF,D7             ; D7 = player.y
-    MOVEA       #TILESHEET,A1       ; (A1) = tilesheet
+    MOVEA.l     #TILESHEET,A1       ; (A1) = tilesheet
     MOVEA.l     D6,A2               ; A2 = player.x
     MOVEA.l     D7,A3               ; A3 = player.y
     MOVEA.l     #MAZE,A4            ; (A4) = maze
