@@ -44,7 +44,7 @@ ___
     * représente l'architecture du labyrinthe
         * les 1 sont les murs
         * les 0 sont les chemins ouverts
-        * les autres valeurs sont les indices de cases
+        * les autres valeurs sont les indices de cases, uniquement lors de la génération
         * chaque case fait 16 bits (= 2o)
 
 * **TILESHEET** :
