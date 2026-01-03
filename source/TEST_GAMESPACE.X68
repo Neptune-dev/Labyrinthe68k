@@ -1,33 +1,33 @@
         ORG $1000
 START:
-
-        ; --- init labyrinthe  ---
+		
         MOVE.W  TAILLE,D3
         JSR     INIT_MAZE
-
-        MOVE.W  #3,D4       ; X = 3
-        MOVE.W  #7,D5       ; Y = 7
-        JSR     GETCELL      ; D5 = valeur actuelle
-
-        MOVE.W  #5,D0        ; ancienne valeur
-        MOVE.W  #9,D1        ; nouvelle valeur
-        LEA     MAZE,A1         ; revenir au début du tableau
-        MOVE.W  #TAILLE_TOTAL,D3
-        JSR    PROPAGERVALEUR
-        
-        JSR     FINPRG
-
-        INCLUDE 'DATASPACE.X68'
-        INCLUDE 'includes/BIBLIO.X68'
-        INCLUDE 'GAMESPACE.X68'
+		JSR		ALGO_FUSION
+		JSR FINPRG
+		INCLUDE 'DATASPACE.X68'
+		INCLUDE 'GAMESPACE.X68'
+		INCLUDE 'includes/BIBLIO.X68'
 
 
-MAZE:    DS.W    6561 ; cases du labyrinthe 
 SEED:    DS.L    1 ; seed pour valeur aléatoire
-TAILLE:  DC.W    9 ; taille d'une ligne du tableau
-TAILLE_TOTAL:	DC.L	TAILLE*TAILLE ; nombre de cases total du labyrinthe
+X_MUR:	DC.L	1
+Y_MUR:	DC.L	1
+VALEURBAS:	DC.L	1
+VALEURHAUT:	DC.L	1
+VALEURGAUCHE:	DC.L	1
+VALEURDROITE:	DC.L	1
+TAILLE:  DC.W    32 ; taille d'une ligne du tableau (toutes les cases)
+TAILLE_TOTAL:	DC.L	1024  ; nombre de cases total du labyrinthe
+MAZE:    DS.W    6561 ; cases du labyrinthe 
 
-        END START
+
+	
+	END START
+
+
+
+
 
 *~Font name~Courier New~
 *~Font size~10~

@@ -1,78 +1,180 @@
-*-----------------------------------------------------------
-* Title      :
-* Written by :
-* Date       :
-* Description:
-*-----------------------------------------------------------
 INIT_MAZE:
         MOVE.L  #MAZE,A0
-        MOVE.W  #6561,D1        
+        MOVE.L  TAILLE_TOTAL,D1
         MOVE.W  #1,D0
 INIT_MAZE_LOOP:
         MOVE.W  D0,(A0)+
-        SUB.W  #1,D1
-        CMP.W   #0,D1
+        SUB.L  #1,D1
         BNE     INIT_MAZE_LOOP
 INIT_LOOP: ; remplit uniquement les cases impaires avec des valeurs croissantes
         MOVE.W  #2,D6       ; valeur initiale = 2
-        MOVE.W  #1,D4
-
-X_LOOP:
-        CMP.W   D3,D4
-        BGE     FIN_LOOP
-        MOVE.W  #1,D5
+        MOVE.W  #1,D5       ; D5 = y commence Ã  1
 
 Y_LOOP:
         CMP.W   D3,D5
-        BGE     NEXT_X
+        BGE     FIN_LOOP
+        MOVE.W  #1,D4       ; D4 = x commence Ã  1
+
+X_LOOP:
+        CMP.W   D3,D4
+        BGE     NEXT_Y
 
         JSR     SETCELL     ; MAZE[x][y] = D6
 
         ADD.W   #1,D6       ; valeur suivante
-        ADD.W   #2,D5
-        BRA     Y_LOOP
-
-NEXT_X:
         ADD.W   #2,D4
         BRA     X_LOOP
+
+NEXT_Y:
+        ADD.W   #2,D5
+        BRA     Y_LOOP
 
 FIN_LOOP:
         RTS
 
 LABYFAIT:
-    CMP.W	#0,D0           ; taille == 0 ?
-    BEQ   TOUSEGAUX	;si vide alors vrai
+    MOVE.L  TAILLE_TOTAL,D0
+    CMP.L   #0,D0
+    BEQ     TOUS_EGAUX
 
-    MOVE.W  (A0),D1      ; D1 = première valeur de référence
-    ADD.L  #2,A0        ; avance au 2e élément
+    MOVE.W  (A0),D1        ; valeur de rÃ©fÃ©rence
+    ADDQ.L  #2,A0          ; Ã©lÃ©ment suivant
     SUB.L  #1,D0
 
 LOOP:
-    CMP.W   (A0),D1      ; case courante != valeur de ref ?
-    BNE   PASEGAUX
+    CMP.L   (A0),D1
+    BNE     PAS_EGAUX
 
-    ADD.L  #2,A0        ; incrémente adresse
-    SUB.L  #1,D0        ; décrémente compteur
-    BNE   LOOP		; pas fini ? continue
+    ADDQ.L  #2,A0
+    SUB.L  #1,D0
+    BNE     LOOP
 
-TOUSEGAUX:
-    MOVE   #1,D4        ; TRUE
+TOUS_EGAUX:
+    MOVEQ   #1,D4
     RTS
 
-PASEGAUX:
-    MOVE   #0,D4        ; FALSE
+PAS_EGAUX:
+    MOVEQ   #0,D4
     RTS
 
+    
 PROPAGERVALEUR:
-        MOVE.W  (A1),D3            ; lire la valeur actuelle
-        CMP.W   D1,D3              ; comparer avec l'ancienne valeur
-        BNE     SKIP_PROPAGE       ; si différent, passe à la suivante
-        MOVE.W  D2,(A1)            ; sinon, remplacer par D1
+    MOVE.W	TAILLE_TOTAL,D3
+BOUCLE:
+        MOVE.W  (A1),D0        ; lire la valeur actuelle
+        CMP.W   D1,D0          ; comparer avec l'ancienne valeur
+        BNE     SKIP_PROPAGE
+        MOVE.W  D2,(A1)        ; remplacer par la nouvelle valeur
 SKIP_PROPAGE:
-        ADD.L  #2,A1              ; passer à la case suivante
-        SUB.L  #1,D3
-        BNE     PROPAGERVALEUR
-		RTS
+        ADD.L   #2,A1          ; passer ï¿½ la case suivante
+        SUB.L   #1,D3          ; dï¿½crï¿½menter compteur
+        BNE     BOUCLE
+        RTS
+
+ALGO_FUSION:
+LOOP_FUSION:
+    ; Vï¿½rifier si le labyrinthe est terminï¿½
+    MOVE.L TAILLE_TOTAL,D0
+    JSR LABYFAIT
+    CMP.W #1,D4
+    BEQ FIN
+
+    ; --- Gï¿½nï¿½rer coordonnï¿½es alï¿½atoires X et Y ---
+    MOVE.L TAILLE_TOTAL,D4
+    JSR RANDOMVAL
+    MOVE.L A2,D6        ; D6 = X
+    MOVE.L D6,X_MUR
+
+    MOVE.L TAILLE_TOTAL,D4
+    JSR RANDOMVAL
+    MOVE.L A2,D7        ; D7 = Y
+    MOVE.L D7,Y_MUR
+
+    ; --- Ajuster Y selon paritï¿½ de X ---
+    BTST #0,D6          ; Test bit 0 de X
+    BEQ X_PAIR
+X_IMPAIR:
+    BCLR #0,D7          ; X impair ? Y pair
+    MOVE.L D7,Y_MUR
+    BRA PARITE_OK
+X_PAIR:
+    BSET #0,D7          ; X pair ? Y impair
+    MOVE.L D7,Y_MUR
+
+PARITE_OK:
+    ; --- Tester paritï¿½ Y pour savoir quel mur traiter ---
+    MOVE.L Y_MUR,D7
+    BTST #0,D7
+    BEQ CAS_Y_PAIR      ; Y pair
+    ; Y impair
+    BTST #0,D6
+    BEQ X_PAIR_Y_IMPAIR
+    BRA LOOP_FUSION     ; sinon relancer gï¿½nï¿½ration
+
+CAS_Y_PAIR:
+    BTST #0,D6
+    BNE X_IMPAIR_Y_PAIR
+    BRA LOOP_FUSION     ; sinon relancer gï¿½nï¿½ration
+
+; --- Cas X pair, Y impair ---
+X_PAIR_Y_IMPAIR:
+    MOVE.L TAILLE_TOTAL,D3
+    MOVE.W X_MUR,D4
+    MOVE.W Y_MUR,D5
+    ADD.W #1,D4
+    JSR GETCELL
+    MOVE.W D5,VALEURBAS
+    MOVE.W Y_MUR,D5
+    SUB.W #2,D4
+    JSR GETCELL
+    MOVE.W D5,VALEURHAUT
+    CMP.W VALEURBAS,D5
+    BEQ LOOP_FUSION
+    MOVE.L TAILLE_TOTAL,D3
+    MOVE.W X_MUR,D4
+    MOVE.W Y_MUR,D5
+    MOVE.L #0,A0
+    JSR SETCELL
+    MOVE.W VALEURBAS,D1
+    MOVE.W VALEURHAUT,D2
+    MOVE.L TAILLE_TOTAL,D3
+    MOVE.L A0,D4
+    MOVE.L A1,D5
+    JSR PROPAGERVALEUR
+    BRA LOOP_FUSION
+
+; --- Cas X impair, Y pair ---
+X_IMPAIR_Y_PAIR:
+    MOVE.L TAILLE_TOTAL,D3
+    MOVE.W X_MUR,D4
+    MOVE.W Y_MUR,D5
+    ADD.W #1,D5
+    JSR GETCELL
+    MOVE.W D5,VALEURDROITE
+    MOVE.W Y_MUR,D5
+    SUB.W #2,D4
+    JSR GETCELL
+    MOVE.W D5,VALEURGAUCHE
+    CMP.W VALEURDROITE,D5
+    BEQ LOOP_FUSION
+    MOVE.L TAILLE_TOTAL,D3
+    MOVE.W X_MUR,D4
+    MOVE.W Y_MUR,D5
+    MOVE.L #0,A0
+    JSR SETCELL
+    MOVE.W VALEURGAUCHE,D1
+    MOVE.W VALEURDROITE,D2
+    MOVE.L TAILLE_TOTAL,D3
+    MOVE.L A0,D4
+    MOVE.L A1,D5
+    JSR PROPAGERVALEUR
+    BRA LOOP_FUSION
+
+FIN:
+    RTS
+
+
+
 
 
 

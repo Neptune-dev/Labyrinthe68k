@@ -63,13 +63,14 @@ tant que !LABYFAIT FAIRE
             SETCELL(x_mur,y_mur,0)
             PROPAGERVALEUR(VALEURBAS,VALEURHAUT)
         finsi
-    sinon si x_mur impair et y_mur pair faire //les valeurs sont à gauche et à droite
+    finsi
+    si x_mur impair et y_mur pair faire //les valeurs sont à gauche et à droite
         VALEURGAUCHE=GETCELL(x_mur,y_mur-1)
         VALEURDROITE=GETCELL(x_mur,y_mur+1)
         si VALEURGAUCHE != VALEURDROITE faire
             SETCELL(x_mur,y_mur,0)
             PROPAGERVALEUR(VALEURGAUCHE,VALEURDROITE)
-        fins
+        finsi
     finsi
 fintq
 
