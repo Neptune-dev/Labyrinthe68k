@@ -100,6 +100,7 @@ RENDER_MAZE:
     AND.l       #$FF,D7             ; D7 = player.y
     MOVEA.l     D6,A1               ; A1 = player.x
     MOVEA.l     D7,A2               ; A2 = player.y
+    MOVEA.l     #BAKED,A5           ; A5 = &baked
 
     MOVE.w  #638,D5           ; x1 = 638 | dans D5 car la couleur aussi a besoin de D1
     MOVE.w  #640,D3           ; x2 = 640 | ce registre ne va pas changer d'usage
@@ -121,8 +122,11 @@ R_MAZE_FOR_Y:
     ASR.l   #8,D6           ; double shift d'un octet
     ASR.l   #8,D6           ; D6 = r = pixel (upscale)
 
-    MOVEA.l D6,A3           ; on stocke les valeurs pour plus tard
-    MOVEA.l D7,A4
+    MULU    #$1000,D7       ; D7 *= 4096 car 4096 octets par tile
+    MULU    #4,D6           ; D6 *= 4 car 4 octets par pixel
+    ADD.l   D7,D6           ; D6 = coordonée x du pixel dans le bake
+
+    MOVEA.l D6,A3           ; on stocke pour plus tard
 
     MOVE.w  D2,D6           ; recupération y pour changer le bake
 
@@ -137,9 +141,17 @@ R_MAZE_FOR_Y:
     ASR.l   #8,D6           ; double shift d'un octet
     ASR.l   #8,D6           ; D6 = r = pixel (upscale)
 
-    
+    MULU    #$1000,D7       ; D7 *= 4096 car 4096 octets par tile
+    MULU    #81,D7          ; D7 *= 81 car 81 tile par ligne dans le labyrinthe
+    MULU    #$80,D6         ; D6 *= 128 car 128 octets par ligne dans une tile
 
-    MOVE.l  A5,D1           ; couleur du pixel dans la tilesheet
+    ADD.l   A3,D7           ; D7 = A3 += offset de tile
+    ADD.l   D6,D7           ; D7 += offset de pixel dans la tile
+
+    MOVEA.l A5,A6           ; copie de l'adresse originale du bake
+    ADDA.l  D7,A6           ; offset
+
+    MOVE.l  (A6),D1           ; couleur du pixel dans la tilesheet
 
     MOVE    #80,D0          ; SET_PEN_COLOR
     TRAP    #15             ; on donne la bonne couleur au crayon
