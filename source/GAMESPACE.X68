@@ -173,26 +173,43 @@ X_IMPAIR_Y_PAIR:
 
 FIN:
     RTS
+    
+    
+    
+TABLEAU_RENDERING: ; remplace FFFF par 0001 et ensuite met tout ce qui n'est pas = 1 à la valeur 1.
+        TST.W   D0
+        BEQ     CHGT_VALEURS
+; partie suppression des FF et remplacement par 01
+LOOP_DELETE_FF:
+        CMP.W   #$FFFF, (A0)    ; compare avec 0x00FF
+        BNE     SKIP_DELETE_FF
 
-TABLEAU_RENDERING:
-        TST.L   D0              ; si D0 = 0, ne rien faire
-        BEQ     FIN_TAB
+        MOVE.W  #1, (A0)        ; remplace par 1
 
-BOUCLE_TAB:
+SKIP_DELETE_FF:
+        ADDQ.L  #2, A0
+        SUBQ.W  #1, D0
+        BNE     LOOP_DELETE_FF
+; changements des valeurs par 1
+CHGT_VALEURS:
+		LEA		MAZE,A0 		;reset des registres pour re parcours de MAZE
+		MOVE.L	#6561,D0
+        TST.W   D0              ; si D0 = 0, ne rien faire
+        BEQ     END_TAB
+
+BOUCLE_CHGT:
         CMP.W   #1, (A0)
-        BEQ     CONTINUE
+        BEQ     CONTINUE_CHGT
 
         CLR.W   (A0)
 
-CONTINUE:
+CONTINUE_CHGT:
         ADDQ.L  #2, A0          ; élément suivant
-        SUBQ.L  #1, D0          ; décrémente compteur
-        BNE     BOUCLE_TAB       ; tant que D0 ? 0, on boucle
+        SUBQ.W  #1, D0          ; décrémente compteur
+        BNE     BOUCLE_CHGT		; tant que D0 ? 0, on boucle
 
-FIN_TAB:
+END_TAB:
         RTS
-
-
 
 
 

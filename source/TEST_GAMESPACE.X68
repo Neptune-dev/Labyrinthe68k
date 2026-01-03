@@ -3,8 +3,8 @@ START:
 		
         MOVE.W  TAILLE,D3
         JSR     INIT_MAZE
-        MOVE.L	#MAZE,A0
-        MOVE.L	TAILLE_TOTAL,D0
+        LEA		MAZE,A0
+        MOVE.L	#6561,D0
         JSR TABLEAU_RENDERING
 		;JSR		ALGO_FUSION
 		JSR FINPRG
