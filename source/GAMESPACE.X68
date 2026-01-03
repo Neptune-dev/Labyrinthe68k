@@ -176,7 +176,7 @@ FIN:
 
 TABLEAU_RENDERING:
         TST.L   D0              ; si D0 = 0, ne rien faire
-        BEQ     END
+        BEQ     FIN_TAB
 
 BOUCLE_TAB:
         CMP.W   #1, (A0)
@@ -189,7 +189,7 @@ CONTINUE:
         SUBQ.L  #1, D0          ; décrémente compteur
         BNE     BOUCLE_TAB       ; tant que D0 ? 0, on boucle
 
-END:
+FIN_TAB:
         RTS
 
 
