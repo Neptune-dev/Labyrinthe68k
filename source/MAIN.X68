@@ -14,11 +14,16 @@ START
     JSR     DRAW_MODE
 
     ; --- init labyrinthe  ---
+    MOVE.l  #LOAD_MSG,A1        ; message de chargement
+    MOVE.l  #14,D0
+    TRAP    #15
+    JSR     SWAP_SCREEN         ; non fonctionnel...
     MOVE.W  TAILLE,D3
-    JSR     INIT_MAZE
+    ; JSR     INIT_MAZE
+    ; JSR     ALGO_FUSION
     JSR     BAKE_MAZE
 
-    MOVE.l  #$00FF0403,PLAYER    ; position (4;3)
+    MOVE.l  #$00020403,PLAYER    ; position (4;3)
 
     JSR     RENDER_MAZE          ; 1er rendu
 
@@ -39,17 +44,17 @@ Z_INPUT:
     ADD.l   #$1,PLAYER          ; player.y += 1
     CLR.w   PLAYER              ; player.orientation = 0
     OR.w    #$8,PLAYER          ; player.orientation = 00001000
-    BRA     CONTINUE
+    JMP     CONTINUE
 Q_INPUT:
-    SUB.l   #$100,PLAYER        ; player.x -= 1
+    SUBI.l  #$100,PLAYER        ; player.x -= 1
     CLR.w   PLAYER              ; player.orientation = 0
     OR.w    #$1,PLAYER          ; player.orientation = 00000001
-    BRA     CONTINUE
+    JMP     CONTINUE
 S_INPUT:
     SUB.l   #$1,PLAYER          ; player.y -= 1
     CLR.w   PLAYER              ; player.orientation = 0
     OR.w    #$4,PLAYER          ; player.orientation = 00000100
-    BRA     CONTINUE
+    JMP     CONTINUE
 D_INPUT:
     ADD.l   #$100,PLAYER        ; player.x += 1
     CLR.w   PLAYER              ; player.orientation = 0
@@ -58,6 +63,8 @@ D_INPUT:
 CONTINUE:
     JSR     RENDER_MAZE ; rendu
     JMP     MAIN        ; boucle
+
+
 
     JMP FINPRG
 
@@ -70,14 +77,21 @@ CONTINUE:
     INCLUDE 'includes/BIBFICH.X68'
     INCLUDE 'includes/BIBPERIPH.X68'
 
-    PLAYER:     DS.b 4
-    MAZE:       DS.w 6561
-    BAKED:      DS.l 6718464
-    TAILLE:  DC.W    9 ; taille d'une ligne du tableau
-    TAILLE_TOTAL:	DC.L	TAILLE*TAILLE ; nombre de cases total du labyrinthe
-    TILESHEET:  DS.l 3072
-    TILEREF:    DC.l 'debug.tilesheet'
-    SEED:       DS.l 1
+    PLAYER:         DS.l 1
+    MAZE:           DS.w 6561
+    BAKED:          DS.l 6718464
+    X_MUR:	        DC.L 1
+    Y_MUR:	        DC.L 1
+    VALEURBAS:	    DC.L 1
+    VALEURHAUT:	    DC.L 1
+    VALEURGAUCHE:	DC.L 1
+    VALEURDROITE:	DC.L 1
+    TAILLE:         DC.W 9              ; taille d'une ligne du tableau
+    TAILLE_TOTAL:	DC.L TAILLE*TAILLE  ; nombre de cases total du labyrinthe
+    TILESHEET:      DS.l 3072
+    TILEREF:        DC.l 'debug.tilesheet'
+    SEED:           DS.l 1
+    LOAD_MSG:       DC.l 'Chargement',0
 
     END START
 
