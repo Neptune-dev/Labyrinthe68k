@@ -17,10 +17,13 @@ START
     MOVE.l  #LOAD_MSG,A1        ; message de chargement
     MOVE.l  #14,D0
     TRAP    #15
-    JSR     SWAP_SCREEN         ; non fonctionnel...
+    JSR     SWAP_SCREEN
     MOVE.W  TAILLE,D3
-    ; JSR     INIT_MAZE
+    JSR     INIT_MAZE
     ; JSR     ALGO_FUSION
+    MOVEA   #MAZE,A0
+    MOVE.l  #6561,D0
+    JSR     TABLEAU_RENDERING
     JSR     BAKE_MAZE
 
     MOVE.l  #$00020403,PLAYER    ; position (4;3)
@@ -44,23 +47,23 @@ Z_INPUT:
     ADD.l   #$1,PLAYER          ; player.y += 1
     CLR.w   PLAYER              ; player.orientation = 0
     OR.w    #$8,PLAYER          ; player.orientation = 00001000
-    JMP     CONTINUE
+    JMP     CONTINUE_MAIN
 Q_INPUT:
     SUBI.l  #$100,PLAYER        ; player.x -= 1
     CLR.w   PLAYER              ; player.orientation = 0
     OR.w    #$1,PLAYER          ; player.orientation = 00000001
-    JMP     CONTINUE
+    JMP     CONTINUE_MAIN
 S_INPUT:
     SUB.l   #$1,PLAYER          ; player.y -= 1
     CLR.w   PLAYER              ; player.orientation = 0
     OR.w    #$4,PLAYER          ; player.orientation = 00000100
-    JMP     CONTINUE
+    JMP     CONTINUE_MAIN
 D_INPUT:
     ADD.l   #$100,PLAYER        ; player.x += 1
     CLR.w   PLAYER              ; player.orientation = 0
     OR.w    #$2,PLAYER          ; player.orientation = 00000010
 
-CONTINUE:
+CONTINUE_MAIN:
     JSR     RENDER_MAZE ; rendu
     JMP     MAIN        ; boucle
 
@@ -78,8 +81,7 @@ CONTINUE:
     INCLUDE 'includes/BIBPERIPH.X68'
 
     PLAYER:         DS.l 1
-    MAZE:           DS.w 6561
-    BAKED:          DS.l 6718464
+    
     X_MUR:	        DC.L 1
     Y_MUR:	        DC.L 1
     VALEURBAS:	    DC.L 1
@@ -87,11 +89,13 @@ CONTINUE:
     VALEURGAUCHE:	DC.L 1
     VALEURDROITE:	DC.L 1
     TAILLE:         DC.W 9              ; taille d'une ligne du tableau
-    TAILLE_TOTAL:	DC.L TAILLE*TAILLE  ; nombre de cases total du labyrinthe
+    TAILLE_TOTAL:	DC.L 81  ; nombre de cases total du labyrinthe
     TILESHEET:      DS.l 3072
     TILEREF:        DC.l 'debug.tilesheet'
     SEED:           DS.l 1
-    LOAD_MSG:       DC.l 'Chargement',0
+    LOAD_MSG:       DC.l 'Chargement...',0
+    MAZE:           DS.w 6561
+    BAKED:          DS.l 6718464
 
     END START
 

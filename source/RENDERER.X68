@@ -27,15 +27,13 @@ LOAD_TILESHEET:
     RTS
 
 CLEAR_BAKED:
-    MOVEA   #BAKED,A1  ; on met l'adresse du bake dans A1
-    CLR.l   D2
-    MOVE.l  #6718646,D3
+    MOVEA   #BAKED,A1       ; on met l'adresse du bake dans A1
+    MOVE.l  #6718464,D3     ; D3 = taille du bake
 FORCLEAR_BAKED:
     CLR.l   (A1)
-    ADDA.l   D2,A1
-    ADD.l   #4,D2
-    CMP     D3,D2
-    BLT     FORCLEAR_BAKED
+    ADDA.l  #4,A1
+    SUBQ.l  #1,D3
+    BGT     FORCLEAR_BAKED
     RTS
 
 BAKE_MAZE:
@@ -46,10 +44,10 @@ BAKE_MAZE:
     CLR.l   D6
 BAKING:
     MOVE.w  (A1),D2         ; D2 = valeur de la case
-    MOVE.w  #$0,D3          ; D3 = 0, compteur dans la tilesheet
-    MOVE.w  #$1000,D4       ; D4 = 4096o, y-offset
-    MULU    D2,D4           ; on applique l'offset en fonciton de si c'est un mur ou un chemin
-    ADD.w   D4,D3           ; D3 = bonne tile
+    MOVE.w  #$0,D3          ; D3 = 0, compteur dans la tilesheet, on est sur le premier pixel
+    MOVE.w  #$1000,D4       ; D4 = 4096o, y-offset, car une tile = 1024 pixels = 4096 octets
+    MULU    D2,D4           ; on applique l'offset en fonction de si c'est un mur ou un chemin
+    ADD.w   D4,D3           ; D3 = bon premier pixel : on a selectionne la tile
     MOVE.w  D3,D4           ; copie
     ADD.w   #$1000,D4       ; D4 = limite de la tile
 TILING:

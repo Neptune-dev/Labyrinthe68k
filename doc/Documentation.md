@@ -169,7 +169,7 @@ ___
 | Registre | Libre | Utilisation | Procédures |
 |---|---|---|---|
 | D0 | ❌ | Appels systèmes |  |
-| D1 | ❌ | Appels systèmes |  |
+| D1 | ⚠️ | Appels systèmes | RENDER_MAZE |
 | D2 | ⚠️ | Appels systèmes pour l'affichage | CLEAR_TILESHEET, RENDER_PIXEL, RENDER_PIXEL_ALPHA, BAKE_MAZE, RENDER_MAZE |
 | D3 | ⚠️ |  | GETCELL, SETCELL, LOAD_TILESHEET, RENDER_PIXEL, RENDER_PIXEL_ALPHA, BAKE_MAZE, RENDER_MAZE |
 | D4 | ⚠️ |  | GETCELL, SETCELL, RANDOMVAL, RENDER_PIXEL, RENDER_PIXEL_ALPHA, BAKE_MAZE, RENDER_MAZE |
