@@ -126,70 +126,60 @@ RENDER_MAZE:
     AND.l       #$FF,D7             ; D7 = player.y
     MOVEA.l     D6,A1               ; A1 = player.x
     MOVEA.l     D7,A2               ; A2 = player.y
-    MOVEA.l     #BAKED,A5           ; A5 = &baked
 
-    MOVE.l  #638,D5           ; x1 = 638 | dans D5 car la couleur aussi a besoin de D1
-    MOVE.l  #640,D3           ; x2 = 640 | ce registre ne va pas changer d'usage
+    MOVEA.l  #638,A3            ; x1 = 638
+    MOVEA.l  #640,A4            ; x2 = 640
 R_MAZE_FOR_X:
-    MOVE.l  #478,D2           ; y1 = 478 | ce registre ne va pas changer d'usage
-    MOVE.l  #480,D4           ; y2 = 480 | ce registre ne va pas changer d'usage
+    MOVEA.l  #478,A5            ; y1 = 478
+    MOVEA.l  #480,A6            ; y2 = 480
 R_MAZE_FOR_Y:
 
-    MOVE.l  D5,D6           ; recupération x pour changer le bake
+    MOVE.l  A3,D6           ; recupération x pour changer le bake
 
     DIVU    #64,D6          ; D6 <- x // 64 (32*2 car upscaling)
 
-    MOVE.l  #$FFFF,D7       ; masque
-    AND.l   D6,D7           ; D7 = q = tile
+    MOVE.l  #$FFFF,D4       ; masque
+    AND.l   D6,D4           ; D4 = q = tile pour x
 
-    ADD.l   A1,D7           ; on ajoute la position du joueur pour avoir le bon offset
-    SUBI.l  #4,D7           ; offset parce que le joueur est au milieu de l'ecran
+    ADD.l   A1,D4           ; on ajoute la position du joueur pour avoir le bon offset
+    SUBI.l  #4,D4           ; offset parce que le joueur est au milieu de l'ecran
 
     LSR.l   #8,D6           ; shift de 2o = 1 mot
     LSR.l   #8,D6           ; D6 = r = pixel (upscale)
-    LSR.l   #1,D6           ; division par deux car 32px par tile et pas 64
 
-    MULU    #$1000,D7       ; D7 *= 4096 car 4096 octets par tile
-    MULU    #4,D6           ; D6 *= 4 car 4 octets par pixel
-    ADD.l   D7,D6           ; D6 = coordonée x du pixel dans le bake
+    LSL.l   #1,D6           ; division par deux car 32px par tile et pas 64 mais multiplication par 4 car 4o par pixel
 
-    MOVEA.l D6,A3           ; on stocke pour plus tard
+    MOVE.l  A5,D7           ; recupération y pour changer le bake
 
-    MOVE.l  D2,D6           ; recupération y pour changer le bake
+    DIVU    #64,D7          ; D7 <- y // 64 (32*2 car upscaling)
 
-    DIVU    #64,D6          ; D6 <- y // 64 (32*2 car upscaling)
+    MOVE.l  #$FFFF,D5       ; masque
+    AND.l   D7,D5           ; D5 = q = tile pour y
 
-    MOVE.l  #$FFFF,D7       ; masque
-    AND.l   D6,D7           ; D7 = q = tile
+    ADD.l   A2,D5           ; on ajoute la position du joueur pour avoir le bon offset
+    SUBI.l  #3,D5           ; offset parce que le joueur est au milieu de l'ecran
 
-    ADD.l   A2,D7           ; on ajoute la position du joueur pour avoir le bon offset
-    SUBI.l  #3,D7           ; offset parce que le joueur est au milieu de l'ecran
-
-    LSR.l   #8,D6           ; double shift d'un octet
-    LSR.l   #8,D6           ; D6 = r = pixel (upscale)
-    LSR.l   #1,D6           ; division par deux car 32px par tile et pas 64
-
-    MULU    #$1000,D7       ; D7 *= 4096 car 4096 octets par tile
+    LSR.l   #8,D7           ; shift de 2o = 1 mot
+    LSR.l   #8,D7           ; D7 = r = pixel (upscale)
+    LSR.l   #1,D7           ; division par deux car 32px par tile et pas 64
     
-    MOVEA.l D6,A0           ; on stocke D6 le temps de la multiplication
-    MOVE.l  D7,D6           ; notation : D7 = a
-                            ; D7 *= 41 car 41 tile par ligne dans le labyrinthe
-    ASL.l   #5,D7           ; D7(b) = D7(a) * 2 * 2 * 2 * 2 * 2 = D7(a) * 32
-    ADD.l   D6,D7           ; D7(b) = "D7(a) * 33"
-    ASL.l   #3,D6           ; D6(c) = D6(a) * 2 * 2 * 2 = D6 * 8
-    ADD.l   D6,D7           ; D7 = b + c = 33*a + 8*a = 41*adresse
+    CLR.l   D3
+    MOVE.w  TAILLE,D3       ; D3 = taille du labyrinthe
+    JSR     GETCELL         ; D5 = valeur de la case correspondante
 
-    MOVE.l  A0,D6           ; on reprend D6
+    LSL.l   #8,D5           ; D5 = D5 * 4096 = D5 * 2^12 car 4096 octets dans une tile
+    LSL.l   #4,D5           ; deuxieme partie de la multiplication, D5 = adresse dans la tilesheet
 
-    ASL.l   #7,D6           ; D6 *= 2 * 2 * 2 * 2 * 2 * 2 * 2 = 128 car 128 octets par ligne dans une tile
+    ADD.l   D6,D5           ; on ajoute x
 
-    ADD.l   A3,D7           ; D7 = A3 += offset de tile
-    ADD.l   D6,D7           ; D7 += offset de pixel dans la tile
+    LSL.l   #7,D7           ; D7 = D7 * 128 = D7 * 2^7 car 128 octets sur un ligne dans la tilesheet
+    ADD.l   D7,D5           ; on ajoute y
 
-    MOVEA.l A5,A6           ; copie de l'adresse originale du bake
-    ADDA.l  D7,A6           ; offset
+    ADD.l   #TILESHEET,D5    ; on ajoute l'adresse de la tilesheet
 
-    MOVE.l  (A6),D1         ; couleur du pixel dans la tilesheet
+    MOVEA.l D5,A7           ; on charge l'adresse
+    MOVE.l  (A7),D1         ; couleur du pixel dans la tilesheet
+    MOVE.l  #$10000000,A7   ; reset de A7 pour éviter de planter
 
     MOVE    #80,D0          ; SET_PEN_COLOR
     TRAP    #15             ; on donne la bonne couleur au crayon
@@ -197,22 +187,27 @@ R_MAZE_FOR_Y:
     MOVE    #81,D0          ; SET_FILL_COLOR
     TRAP    #15             ; couleur de remplissage
 
-    MOVE.l  D5,D1           ; préparation des coordonées (x)
+    MOVE.l  A3,D1           ; préparation des coordonées (x1)
+    MOVE.l  A4,D3           ; préparation des coordonées (x2)
+    MOVE.l  A5,D2           ; préparation des coordonées (y1)
+    MOVE.l  A6,D4           ; préparation des coordonées (y2)
 
     MOVE    #87,D0          ; DRAW_FILL_RECT
     TRAP    #15             ; dessin du rectangle
 
-    SUBQ.w  #2,D2           ; y1 = y1-2
-    SUBQ.w  #2,D4           ; y2 = y2-2
+    SUBA.w  #2,A6           ; y2 = y2-2
+    SUBA.w  #2,A5           ; y1 = y1-2
+    CMPA.l  #0,A5
     BGT     R_MAZE_FOR_Y    ; condition de boucle for (y > 0)
 
-    SUBQ.w  #2,D5           ; x1 = x1-2
-    SUBQ.w  #2,D3           ; x2 = x2-2
+    SUBA.w  #2,A4           ; x2 = x2-2
+    SUBA.w  #2,A3           ; x1 = x1-2
+    CMPA.l  #0,A3
     BGT     R_MAZE_FOR_X    ; condition de boucle for (x > 0)
 
     JSR     RENDER_PLAYER
-    MOVE    #94,D0          ; SWAP_SCREEN
-    TRAP    #15
+    ; MOVE    #94,D0          ; SWAP_SCREEN
+    ; TRAP    #15
 
     RTS
 

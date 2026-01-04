@@ -10,21 +10,20 @@ START
     ; --- init renderer  ---
     MOVE.l  #12288,D3       ; nombre d'octets dans une texture pour 3 cases de 32x32
     JSR     LOAD_TILESHEET
-    MOVE.b  #17,D1          ; preparation du dessin
-    JSR     DRAW_MODE
+    ; MOVE.b  #17,D1          ; preparation du dessin
+    ; JSR     DRAW_MODE
 
     ; --- init labyrinthe  ---
     MOVE.l  #LOAD_MSG,A1        ; message de chargement
     MOVE.l  #14,D0
     TRAP    #15
-    JSR     SWAP_SCREEN
+    ; JSR     SWAP_SCREEN
     MOVE.W  TAILLE,D3
     JSR     INIT_MAZE
     ; JSR     ALGO_FUSION
     MOVEA   #MAZE,A0
     MOVE.l  #$691,D0            ; 1681
     JSR     TABLEAU_RENDERING
-    JSR     BAKE_MAZE
 
     MOVE.l  #$00020403,PLAYER    ; position (4;3)
 
