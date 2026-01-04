@@ -99,6 +99,10 @@ ___
     * ✅ D4 : n
     * **retour** : A2
 
+* **COLLIDER** : *GAMESPACE.X68*
+    * retourne 1 si une collision a lieu
+    * **retour** : D5
+
 * **CLEAR_TILESHEET** : *RENDERER.X68*
     * met à 0 toute la **TILESHEET**
     * ✅ D3.l : taille attendue de la tilesheet (en octets)
@@ -143,5 +147,6 @@ ___
 | RENDER_PIXEL_ALPHA    |  |  | ❌ | ✅ | ✅ | ❌ |  |  |  |  |  |  | ❌ | ❌ |  |  |
 | RENDER_MAZE           |  |  | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | RENDER_PLAYER         |  |  | ❌ | ❌ | ❌ |  | ❌ | ❌ |  | ❌ |  |  |  |  |  |  |
+| COLLIDER              |  |  | ❌ | ❌ | ❌ | ❌ |  |  |  |  |  |  |  |  |  |  |
 |                       |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 

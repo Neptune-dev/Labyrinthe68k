@@ -20,7 +20,7 @@ START
     JSR     SWAP_SCREEN
     MOVE.W  TAILLE,D3
     JSR     INIT_MAZE
-    ; JSR     ALGO_FUSION
+    JSR     ALGO_FUSION
     MOVEA   #MAZE,A0
     MOVE.l  #$691,D0            ; 1681
     JSR     TABLEAU_RENDERING
@@ -31,6 +31,7 @@ START
 
     ; --- boucle principale  ---
 MAIN:
+    MOVE.l  PLAYER,D2
     JSR     SAISCAR     ; input
 
     CMP.b   #$7A,D1     ; z
@@ -44,26 +45,30 @@ MAIN:
     JMP     MAIN        ; else
 
 Z_INPUT:
-    SUB.l   #$1,PLAYER          ; player.y -= 1  /!\ inversion de l'axe y
-    CLR.w   PLAYER              ; player.orientation = 0
-    OR.w    #$8,PLAYER          ; player.orientation = 00001000
+    SUB.l   #$1,D2          ; player.y -= 1  /!\ inversion de l'axe y
+    AND.l   #$FFFF,D2       ; player.orientation = 0
+    OR.w    #$8,D2          ; player.orientation = 00001000
     JMP     CONTINUE_MAIN
 Q_INPUT:
-    SUBI.l  #$100,PLAYER        ; player.x -= 1
-    CLR.w   PLAYER              ; player.orientation = 0
-    OR.w    #$1,PLAYER          ; player.orientation = 00000001
+    SUBI.l  #$100,D2        ; player.x -= 1
+    AND.l   #$FFFF,D2       ; player.orientation = 0
+    OR.w    #$1,D2          ; player.orientation = 00000001
     JMP     CONTINUE_MAIN
 S_INPUT:
-    ADD.l   #$1,PLAYER          ; player.y += 1  /!\ inversion de l'axe y
-    CLR.w   PLAYER              ; player.orientation = 0
-    OR.w    #$4,PLAYER          ; player.orientation = 00000100
+    ADD.l   #$1,D2          ; player.y += 1  /!\ inversion de l'axe y
+    AND.l   #$FFFF,D2       ; player.orientation = 0
+    OR.w    #$4,D2          ; player.orientation = 00000100
     JMP     CONTINUE_MAIN
 D_INPUT:
-    ADD.l   #$100,PLAYER        ; player.x += 1
-    CLR.w   PLAYER              ; player.orientation = 0
-    OR.w    #$2,PLAYER          ; player.orientation = 00000010
+    ADD.l   #$100,D2        ; player.x += 1
+    AND.l   #$FFFF,D2       ; player.orientation = 0
+    OR.w    #$2,D2          ; player.orientation = 00000010
 
 CONTINUE_MAIN:
+    JSR     COLLIDER
+    CMP.w   #1,D5               ; vérification de la collision
+    BEQ     MAIN                ; si true, on boucle
+    MOVE.l  D2,PLAYER           ; si false, on met à jour le joueur et on render
     JSR     RENDER_MAZE         ; rendu
     JMP     MAIN                ; boucle
 

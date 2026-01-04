@@ -8,12 +8,12 @@ INIT_MAZE_LOOP:
         BNE     INIT_MAZE_LOOP
 INIT_LOOP: ; remplit uniquement les cases impaires avec des valeurs croissantes
         MOVE.W  #2,D6       ; valeur initiale = 2
-        MOVE.W  #1,D5       ; D5 = y commence à 1
+        MOVE.W  #1,D5       ; D5 = y commence ï¿½ 1
 
 Y_LOOP:
         CMP.W   D3,D5
         BGE     FIN_LOOP
-        MOVE.W  #1,D4       ; D4 = x commence à 1
+        MOVE.W  #1,D4       ; D4 = x commence ï¿½ 1
 
 X_LOOP:
         CMP.W   D3,D4
@@ -37,8 +37,8 @@ LABYFAIT:
     CMP.L   #0,D0
     BEQ     TOUS_EGAUX
 
-    MOVE.W  (A0),D1        ; valeur de référence
-    ADDQ.L  #2,A0          ; élément suivant
+    MOVE.W  (A0),D1        ; valeur de rï¿½fï¿½rence
+    ADDQ.L  #2,A0          ; ï¿½lï¿½ment suivant
     SUB.L  #1,D0
 
 LOOP:
@@ -67,7 +67,7 @@ BOUCLE:
         MOVE.W D2,(A1)           ; remplacer par la nouvelle valeur
 SKIP_PROPAGE:
         ADD.L #2,A1              ; passer ? la cellule suivante
-        DBRA D3,BOUCLE       ; décrémenter D3 et boucler si pas fini
+        DBRA D3,BOUCLE       ; dï¿½crï¿½menter D3 et boucler si pas fini
         RTS
 
 
@@ -76,7 +76,7 @@ LOOP_FUSION:
 	; boucle tant qu'on a pas fait 100 appels
 	MOVE.L	NB_TOURS,D0
 	CMP.L   #0,D0
-    BEQ FIN               ; arrêter si compteur = 0
+    BEQ FIN               ; arrï¿½ter si compteur = 0
     SUBQ.L  #1,D0
 	MOVE.L	D0,NB_TOURS        
 
@@ -214,6 +214,16 @@ CONTINUE_CHGT:
         ADDQ.L  #2, A0          ; ?l?ment suivant
         SUBQ.W  #1, D0          ; d?cr?mente compteur
         BNE     BOUCLE_CHGT		; tant que D0 ? 0, on boucle
+
+COLLIDER:
+        MOVE.l  D2,D4           ; rÃ©cupÃ©ration des donnÃ©es
+        MOVE.l  D4,D5           ; copie
+        AND.l   #$FF00,D4       ; D4 = player.x dÃ©calÃ© d'un octet
+        LSR.l   #8,D4           ; D4 = player.x
+        AND.l   #$FF,D5         ; D5 = player.y
+        MOVE.w  TAILLE,D3       ; D3 = taille du labyrinthe     
+        JSR     GETCELL         ; D5 = lab(x,y)
+        RTS
 
 END_TAB:
         RTS

@@ -18,7 +18,7 @@ SETCELL:
         MOVE.W D5,D1        ; D1 = y
         MULU   D3,D1        ; D1 = y * largeur
         ADD.W  D4,D1        ; D1 = y*largeur + x
-        LSL.W  #1,D1        ; *2 pour mot (décalage de 2 bits)
+        LSL.W  #1,D1        ; *2 pour mot (dï¿½calage de 2 bits)
         LEA    MAZE,A1      ; charge l'adresse de MAZE dans A1
         ADD.W D1,A1        ; A1 = &MAZE[y][x]
         MOVE.W D6,(A1)      ; MAZE[y][x] = D6
@@ -35,11 +35,11 @@ RANDOMVAL:
     MOVE.L  SEED,D0
     MULU    #4,D0         ; D0 = D0 * 3
     ADD.L   #71,D0        ; D0 = D0*3 + 71 (LCG)
-    MOVE.L  D0,SEED       ; mise à jour de la seed
+    MOVE.L  D0,SEED       ; mise ï¿½ jour de la seed
 
     MOVE.L  SEED,D1
 
-    MOVE.W  D4,D2          ; D4 = borne supérieure
+    MOVE.W  D4,D2          ; D4 = borne supï¿½rieure
     SUB.W  #1,D2           ; D2 = D4 - 1
     DIVU    D2,D1          ; D1 = SEED mod D2 -> valeur [0..D4-1]
     SWAP    D1
