@@ -1,7 +1,11 @@
 # Labyrinthe68k - Documentation
 
+L'entièreté du projet peut être retrouvé sur son [repo GitHub](https://github.com/Neptune-dev/Labyrinthe68k).
 
-Par convention, on décide que l'écran de jeu fait 640 x 480 px.
+___
+
+Conventions :
+* Par convention, on décide que l'écran de jeu fait 640 x 480 px.
 
 ___
 
@@ -17,6 +21,7 @@ Répertoires :
 
 * **doc/** :
     * fichiers de conception
+    * documentation
 
 <br>
 
@@ -74,6 +79,7 @@ Ici sont listées les procédures. Sont spécifiés:
     * ✅ = valeur conservée
     * ❌ = valeur écrasée
 * optionnel : les registres où se situent les valeurs de retour
+* un tableau qui détaille l'utilisation des registres par chaque procédure
 
 ___
 
