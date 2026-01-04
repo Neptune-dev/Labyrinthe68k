@@ -40,12 +40,13 @@ ___
         * le 4eme represente y
 
 * **MAZE** :
-    * tableau de 6 561 mots (=13 322o)
+    * tableau de 1681 mots (=3362o)
     * représente l'architecture du labyrinthe
         * les 1 sont les murs
         * les 0 sont les chemins ouverts
         * les autres valeurs sont les indices de cases, uniquement lors de la génération
         * chaque case fait 16 bits (= 2o)
+        * la taille maximale du labyrinthe est de 20x20, donc 41x41 cases
 
 * **TILESHEET** :
     * tableau de 3072 mots longs (=12 288o)
@@ -60,7 +61,7 @@ ___
     * chaine de caractère contenant le nom du fichier de tilesheet utilisé
 
 * **BAKED** :
-    * tableau de 6 718 464 mots longs = (28,873856 Mo)
+    * tableau de 1 721 344 mots longs = (430 336 o)
     * chaque case (mot long) représente une couleur au format `$00BBGGRR`
     * les tiles sont mises à la suite les unes des autres
 

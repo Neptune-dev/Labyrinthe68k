@@ -89,13 +89,13 @@ CONTINUE_MAIN:
     VALEURGAUCHE:	DC.L 1
     VALEURDROITE:	DC.L 1
     TAILLE:         DC.W 9              ; taille d'une ligne du tableau
-    TAILLE_TOTAL:	DC.L 81  ; nombre de cases total du labyrinthe
+    TAILLE_TOTAL:	DC.L 41             ; nombre de cases total du labyrinthe
     TILESHEET:      DS.l 3072
     TILEREF:        DC.l 'debug.tilesheet'
     SEED:           DS.l 1
     LOAD_MSG:       DC.l 'Chargement...',0
-    MAZE:           DS.w 6561
-    BAKED:          DS.l 6718464
+    MAZE:           DS.w 1681           ;   3 362 o
+    BAKED:          DS.l 1721344        ; 430 336 o
 
     END START
 

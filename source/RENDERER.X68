@@ -28,11 +28,11 @@ LOAD_TILESHEET:
 
 CLEAR_BAKED:
     MOVEA   #BAKED,A1       ; on met l'adresse du bake dans A1
-    MOVE.l  #6718464,D3     ; D3 = taille du bake
+    MOVE.l  #1721344,D3     ; D3 = 6718464 = taille du bake
 FORCLEAR_BAKED:
     CLR.l   (A1)
     ADDA.l  #4,A1
-    SUBQ.l  #1,D3
+    SUBI.l  #1,D3
     BGT     FORCLEAR_BAKED
     RTS
 
@@ -45,11 +45,12 @@ BAKE_MAZE:
 BAKING:
     MOVE.w  (A1),D2         ; D2 = valeur de la case
     MOVE.w  #$0,D3          ; D3 = 0, compteur dans la tilesheet, on est sur le premier pixel
-    MOVE.w  #$1000,D4       ; D4 = 4096o, y-offset, car une tile = 1024 pixels = 4096 octets
+    MOVE.l  #$1000,D4       ; D4 = 4096o, y-offset, car une tile = 1024 pixels = 4096 octets
     MULU    D2,D4           ; on applique l'offset en fonction de si c'est un mur ou un chemin
-    ADD.w   D4,D3           ; D3 = bon premier pixel : on a selectionne la tile
-    MOVE.w  D3,D4           ; copie
-    ADD.w   #$1000,D4       ; D4 = limite de la tile
+    ADD.l   D4,D3           ; D3 = bon premier pixel : on a selectionne la tile
+    ADD.l   #TILESHEET,D3   ; projection dans la tilesheet
+    MOVE.l  D3,D4           ; copie
+    ADD.l   #$1000,D4       ; D4 = limite de la tile
 TILING:
     MOVEA   D3,A3           ; A3 = adresse du pixel dans la tile
     MOVE.l  (A3),D5         ; D5 = couleur du pixel
@@ -140,7 +141,7 @@ R_MAZE_FOR_Y:
     ASR.l   #8,D6           ; D6 = r = pixel (upscale)
 
     MULU    #$1000,D7       ; D7 *= 4096 car 4096 octets par tile
-    MULU    #81,D7          ; D7 *= 81 car 81 tile par ligne dans le labyrinthe
+    MULU    TAILLE_TOTAL,D7          ; D7 *= 81 car 81 tile par ligne dans le labyrinthe
     MULU    #$80,D6         ; D6 *= 128 car 128 octets par ligne dans une tile
 
     ADD.l   A3,D7           ; D7 = A3 += offset de tile
