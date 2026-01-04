@@ -59,37 +59,42 @@ PAS_EGAUX:
 
     
 PROPAGERVALEUR:
-    MOVE.W	TAILLE_TOTAL,D3
+        MOVE.L TAILLE_TOTAL,D3   ; compteur total
 BOUCLE:
-        MOVE.W  (A1),D0        ; lire la valeur actuelle
-        CMP.W   D1,D0          ; comparer avec l'ancienne valeur
-        BNE     SKIP_PROPAGE
-        MOVE.W  D2,(A1)        ; remplacer par la nouvelle valeur
+        MOVE.W (A1),D0          ; lire la valeur courante du tableau
+        MOVE.L D0,D7             ; **copie dans D7 pour déboggage**
+		MOVE.B	D1,D6
+        CMP.B D1,D0              ; comparer avec l'ancienne valeur
+        BNE SKIP_PROPAGE
+        MOVE.W D2,(A1)           ; remplacer par la nouvelle valeur
 SKIP_PROPAGE:
-        ADD.L   #2,A1          ; passer ï¿½ la case suivante
-        SUB.L   #1,D3          ; dï¿½crï¿½menter compteur
-        BNE     BOUCLE
+        ADD.L #2,A1              ; passer à la cellule suivante
+        SUB.L #1,D3              ; décrémenter le compteur
+        BNE BOUCLE
         RTS
+
 
 ALGO_FUSION:
 LOOP_FUSION:
-    ; Vï¿½rifier si le labyrinthe est terminï¿½
+    ; boucle tant que le labyrinthe est pas fait
     MOVE.L TAILLE_TOTAL,D0
     JSR LABYFAIT
     CMP.W #1,D4
     BEQ FIN
 
-    ; --- Gï¿½nï¿½rer coordonnï¿½es alï¿½atoires X et Y ---
+    ; --- génération des coordonnées randoms X et Y ---
     MOVE.W TAILLE,D4
     JSR RANDOMVAL
     MOVE.L A2,D6        ; D6 = X
+    ;MOVE.L	#4,D6 ;----------------DEBUG
     MOVE.L D6,X_MUR
 
     JSR RANDOMVAL
     MOVE.L A2,D7        ; D7 = Y
+    ;MOVE.L	#3,D7	;-------------------DEBUG
     MOVE.L D7,Y_MUR
 
-    ; --- Ajuster Y selon paritï¿½ de X ---
+    ; --- gestion de la parité de X ---
     BTST #0,D6          ; Test bit 0 de X
     BEQ X_PAIR
 X_IMPAIR:
@@ -101,45 +106,50 @@ X_PAIR:
     MOVE.L D7,Y_MUR
 
 PARITE_OK:
-    ; --- Tester paritï¿½ Y pour savoir quel mur traiter ---
+    ; --- vérification de la parité de Y ---
     MOVE.L Y_MUR,D7
     BTST #0,D7
     BEQ CAS_Y_PAIR      ; Y pair
     ; Y impair
     BTST #0,D6
     BEQ X_PAIR_Y_IMPAIR
-    BRA LOOP_FUSION     ; sinon relancer gï¿½nï¿½ration
+    BRA LOOP_FUSION     ; sinon relancer génération
 
 CAS_Y_PAIR:
     BTST #0,D6
     BNE X_IMPAIR_Y_PAIR
-    BRA LOOP_FUSION     ; sinon relancer gï¿½nï¿½ration
+    BRA LOOP_FUSION     ; sinon relancer génération
 
 ; --- Cas X pair, Y impair ---
 X_PAIR_Y_IMPAIR:
+	; --- préparation du GETCELL(x_mur+1,y_mur) ---
     MOVE.W TAILLE,D3
     MOVE.L X_MUR,D4
     MOVE.L Y_MUR,D5
-    ADD.L #1,D4
+    ADD.L	#1,D4
     JSR GETCELL
-    MOVE.L D5,VALEURBAS
+    ; déplacement du résultat vers son espace atitré
+    MOVE.L D5,VALEURDROITE
+    ; --- préparation du GETCELL(x_mur-1,y_mur)
     MOVE.L	X_MUR,D4
     MOVE.L 	Y_MUR,D5
-    SUB.L #2,D5
+    SUB.L #1,D4
     JSR GETCELL
-    MOVE.L D5,VALEURHAUT
-    CMP.W VALEURBAS,D5
+    ; déplacement vers son espace atitré
+    MOVE.L D5,VALEURGAUCHE
+    CMP.W VALEURDROITE,D5 ; si les deux résultats sont égaux, les deux valeurs ont déjà subi la même propagation donc on refait une boucle
     BEQ LOOP_FUSION
+    ; --- préparation du SETCELL(x_mur,y_mur,0) pour casser le mur
     MOVE.W TAILLE,D3
     MOVE.L X_MUR,D4
     MOVE.L Y_MUR,D5
-    MOVE.L #0,A0
-    JSR SETCELL
-    MOVE.L VALEURBAS,D1
-    MOVE.L VALEURHAUT,D2
-    MOVE.L TAILLE_TOTAL,D3
-    MOVE.L A0,D4
-    MOVE.L A1,D5
+    MOVE.L #0,D6
+    JSR SETCELL ; casse le mur où on est
+    ; --- préparation du PROPAGERVALEUR(VALEURGAUCHE,VALEURDROITE)
+    MOVE.L VALEURGAUCHE,D1
+    MOVE.L VALEURDROITE,D2
+    LEA	MAZE,A1
+    CLR D0
     JSR PROPAGERVALEUR
     BRA LOOP_FUSION
 
@@ -150,24 +160,23 @@ X_IMPAIR_Y_PAIR:
     MOVE.L Y_MUR,D5
     ADD.L #1,D5
     JSR GETCELL
-    MOVE.L D5,VALEURDROITE
+    MOVE.L D5,VALEURHAUT
     MOVE.L	X_MUR,D4
     MOVE.L 	Y_MUR,D5
-    SUB.L #2,D5
+    SUB.L #1,D5
+    ;ADD.L #4,D4
     JSR GETCELL
-    MOVE.L D5,VALEURGAUCHE
-    CMP.L VALEURDROITE,D5
+    MOVE.L D5,VALEURBAS
+    CMP.L VALEURHAUT,D5
     BEQ LOOP_FUSION
-    MOVE.W TAILLE,D3
     MOVE.L X_MUR,D4
     MOVE.L Y_MUR,D5
-    MOVE.L #0,A0
+    MOVE.L #0,D6
     JSR SETCELL
-    MOVE.W VALEURGAUCHE,D1
-    MOVE.W VALEURDROITE,D2
-    MOVE.W TAILLE_TOTAL,D3
-    MOVE.L A0,D4
-    MOVE.L A1,D5
+    MOVE.L VALEURBAS,D1
+    MOVE.L VALEURHAUT,D2
+    LEA	MAZE,A1
+    CLR D0
     JSR PROPAGERVALEUR
     BRA LOOP_FUSION
 
@@ -210,6 +219,7 @@ CONTINUE_CHGT:
 
 END_TAB:
         RTS
+
 
 
 

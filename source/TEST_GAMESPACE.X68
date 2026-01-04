@@ -1,18 +1,14 @@
         ORG $1000
 START:
-		
+		JSR SETSEED
         MOVE.W  TAILLE,D3
         JSR     INIT_MAZE
-        LEA		MAZE,A0
-        MOVE.L	#6561,D0
-        JSR TABLEAU_RENDERING
-		;JSR		ALGO_FUSION
+		JSR		ALGO_FUSION
 		JSR FINPRG
 		INCLUDE 'DATASPACE.X68'
 		INCLUDE 'GAMESPACE.X68'
 		INCLUDE 'includes/BIBLIO.X68'
-
-
+    
 SEED:    DS.L    1 ; seed pour valeur aléatoire
 X_MUR:	DC.L	1
 Y_MUR:	DC.L	1
@@ -20,11 +16,12 @@ VALEURBAS:	DC.L	1
 VALEURHAUT:	DC.L	1
 VALEURGAUCHE:	DC.L	1
 VALEURDROITE:	DC.L	1
-TAILLE:  DC.W    16 ; taille d'une ligne du tableau (toutes les cases)
-TAILLE_TOTAL:	DC.L	256  ; nombre de cases total du labyrinthe
-MAZE:    DS.W    6561 ; cases du labyrinthe 
+TAILLE:  DC.W    10 ; taille d'une ligne du tableau (toutes les cases)
+TAILLE_TOTAL:	DC.L	100  ; nombre de cases total du labyrinthe
+MAZE:    DS.W    100 ; cases du labyrinthe 
 
 	END START
+
 
 
 
