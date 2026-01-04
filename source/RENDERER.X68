@@ -177,9 +177,8 @@ R_MAZE_FOR_Y:
 
     ADD.l   #TILESHEET,D5    ; on ajoute l'adresse de la tilesheet
 
-    MOVEA.l D5,A7           ; on charge l'adresse
-    MOVE.l  (A7),D1         ; couleur du pixel dans la tilesheet
-    MOVE.l  #$10000000,A7   ; reset de A7 pour éviter de planter
+    MOVEA.l D5,A0           ; on charge l'adresse
+    MOVE.l  (A0),D1         ; couleur du pixel dans la tilesheet
 
     MOVE    #80,D0          ; SET_PEN_COLOR
     TRAP    #15             ; on donne la bonne couleur au crayon
@@ -206,8 +205,8 @@ R_MAZE_FOR_Y:
     BGT     R_MAZE_FOR_X    ; condition de boucle for (x > 0)
 
     JSR     RENDER_PLAYER
-    ; MOVE    #94,D0          ; SWAP_SCREEN
-    ; TRAP    #15
+    MOVE    #94,D0          ; SWAP_SCREEN
+    TRAP    #15
 
     RTS
 

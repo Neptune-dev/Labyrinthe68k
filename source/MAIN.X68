@@ -10,14 +10,14 @@ START
     ; --- init renderer  ---
     MOVE.l  #12288,D3       ; nombre d'octets dans une texture pour 3 cases de 32x32
     JSR     LOAD_TILESHEET
-    ; MOVE.b  #17,D1          ; preparation du dessin
-    ; JSR     DRAW_MODE
+    MOVE.b  #17,D1          ; preparation du dessin
+    JSR     DRAW_MODE
 
     ; --- init labyrinthe  ---
     MOVE.l  #LOAD_MSG,A1        ; message de chargement
     MOVE.l  #14,D0
     TRAP    #15
-    ; JSR     SWAP_SCREEN
+    JSR     SWAP_SCREEN
     MOVE.W  TAILLE,D3
     JSR     INIT_MAZE
     ; JSR     ALGO_FUSION
@@ -88,15 +88,16 @@ CONTINUE_MAIN:
     VALEURHAUT:	    DC.L 1
     VALEURGAUCHE:	DC.L 1
     VALEURDROITE:	DC.L 1
-    TAILLE:         DC.W 19              ; taille d'une ligne du tableau
-    TAILLE_TOTAL:	DC.l 361             ; nombre de cases total du labyrinthe
-    TAILLE_MAX:	    DC.L 41             ; nombre de cases total du labyrinthe
+    TAILLE:         DC.W 19                 ; taille d'une ligne du tableau
+    TAILLE_TOTAL:	DC.l 361                ; nombre de cases total du labyrinthe
+    TAILLE_MAX:	    DC.L 41                 ; nombre de cases total du labyrinthe
     TILESHEET:      DS.l 3072
     TILEREF:        DC.l 'lab.tilesheet'
+    NB_TOURS:	    DC.l 350                ; nombres de tours de la boucle ALGO_FUSION
     SEED:           DS.l 1
     LOAD_MSG:       DC.l 'Chargement...',0
-    MAZE:           DS.w 1681           ;   3 362 o
-    BAKED:          DS.l 1721344        ; 430 336 o
+    MAZE:           DS.w 1681               ;   3 362 o
+    BAKED:          DS.l 1721344            ; 430 336 o
 
     END START
 
