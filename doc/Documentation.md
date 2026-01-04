@@ -139,6 +139,18 @@ ___
     * dessine le joueur au milieu de l'écran
     * utilise le canal alpha
 
+* **INITMAZE**: *GAMESPACE.X68*
+    * initialise le contenu de MAZE.
+
+* **PROPAGERVALEUR(ancienne,nouvelle)**:  *GAMESPACE.X68*
+    * D1.L: ancienne valeur
+    * D2.L: nouvelle valeur
+    * propage la valeur *nouvelle* partout où les valeurs *ancienne* sont présentes.
+
+**TAILLE**: Constante qui contient le nombre de cases sur une ligne du labyrinthe
+**TAILLE_TOTAL**: Constante qui contient le nombre de cases totales du labyrinthe.
+**NB_TOURS**:  nombres de tours de la boucle ALGO_FUSION, plus la valeur est grande et plus on a de chances d'avoir un bon labyrinthe.
+
 
 ## Registres
 

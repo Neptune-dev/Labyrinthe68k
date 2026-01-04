@@ -78,18 +78,14 @@ LOOP_FUSION:
 	CMP.L   #0,D0
     BEQ FIN               ; arrï¿½ter si compteur = 0
     SUBQ.L  #1,D0
-	MOVE.L	D0,NB_TOURS        
-
-    ; --- g?n?ration des coordonn?es randoms X et Y ---
-    MOVE.W TAILLE,D4
-    JSR RANDOMVAL
-    MOVE.L A2,D6        ; D6 = X
-    ;MOVE.L	#4,D6 ;----------------DEBUG
+	MOVE.L	D0,NB_TOURS
+	; initialisation de x et y aléatoires (fonctionne pas)
+    MOVE.W TAILLE,D2     
+	JSR RANDOMVAL
+	MOVE.B	A2,D6
+	JSR RANDOMVAL
+	MOVE.B	A2,D7
     MOVE.L D6,X_MUR
-
-    JSR RANDOMVAL
-    MOVE.L A2,D7        ; D7 = Y
-    ;MOVE.L	#3,D7	;-------------------DEBUG
     MOVE.L D7,Y_MUR
 
     ; --- gestion de la parit? de X ---
@@ -227,6 +223,7 @@ COLLIDER:
 
 END_TAB:
         RTS
+
 *~Font name~Courier New~
 *~Font size~10~
 *~Tab type~1~
