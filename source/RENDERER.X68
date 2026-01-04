@@ -96,7 +96,8 @@ RENDER_PLAYER:
 RENDER_MAZE:
     MOVE.l      PLAYER,D6           ; récupération des données
     MOVE.l      D6,D7               ; copie
-    AND.l       #$FF00,D6           ; D6 = player.x
+    AND.l       #$FF00,D6           ; D6 = player.x décalé d'un octet
+    ASR.l       #8,D6               ; D6 = player.x
     AND.l       #$FF,D7             ; D7 = player.y
     MOVEA.l     D6,A1               ; A1 = player.x
     MOVEA.l     D7,A2               ; A2 = player.y

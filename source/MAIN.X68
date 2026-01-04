@@ -44,7 +44,7 @@ MAIN:
     BEQ     D_INPUT
 
 Z_INPUT:
-    ADD.l   #$1,PLAYER          ; player.y += 1
+    SUB.l   #$1,PLAYER          ; player.y -= 1  /!\ inversion de l'axe y
     CLR.w   PLAYER              ; player.orientation = 0
     OR.w    #$8,PLAYER          ; player.orientation = 00001000
     JMP     CONTINUE_MAIN
@@ -54,7 +54,7 @@ Q_INPUT:
     OR.w    #$1,PLAYER          ; player.orientation = 00000001
     JMP     CONTINUE_MAIN
 S_INPUT:
-    SUB.l   #$1,PLAYER          ; player.y -= 1
+    ADD.l   #$1,PLAYER          ; player.y += 1  /!\ inversion de l'axe y
     CLR.w   PLAYER              ; player.orientation = 0
     OR.w    #$4,PLAYER          ; player.orientation = 00000100
     JMP     CONTINUE_MAIN
