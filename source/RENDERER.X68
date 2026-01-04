@@ -26,46 +26,6 @@ LOAD_TILESHEET:
     JSR     CLOSE_FILE      ; fermeture du fichier
     RTS
 
-CLEAR_BAKED:
-    MOVEA   #BAKED,A1       ; on met l'adresse du bake dans A1
-    MOVE.l  #1721344,D3     ; D3 = 6718464 = taille du bake
-FORCLEAR_BAKED:
-    CLR.l   (A1)
-    ADDA.l  #4,A1
-    SUBI.l  #1,D3
-    BGT     FORCLEAR_BAKED
-    RTS
-
-BAKE_MAZE:
-    JSR     CLEAR_BAKED     ; clear
-    MOVEA   #MAZE,A1        ; A1 = adresse courante du labyrinthe
-    MOVEA   #BAKED,A2       ; A2 = adresse courante du bake
-    MOVEA   #TILESHEET,A3   ; A3 = adresse de la tilesheet
-    CLR.l   D2
-    CLR.l   D6
-BAKING:
-    MOVE.w  (A1),D2         ; D2 = valeur de la case
-    MOVE.w  #$0,D3          ; D3 = 0, compteur dans la tilesheet, on est sur le premier pixel
-    MOVE.l  #$1000,D4       ; D4 = 4096o, y-offset, car une tile = 1024 pixels = 4096 octets
-    MULU    D2,D4           ; on applique l'offset en fonction de si c'est un mur ou un chemin
-    ADD.l   D4,D3           ; D3 = bon premier pixel : on a selectionne la tile
-    ADD.l   A3,D3           ; projection dans la tilesheet
-    MOVE.l  D3,D4           ; copie
-    ADD.l   #$FFC,D4        ; D4 += 4096 - 4 = dernier pixel de la tile
-TILING:
-    MOVEA   D3,A4           ; A3 = adresse du pixel dans la tile
-    MOVE.l  (A4),D5         ; D5 = couleur du pixel
-    MOVE.l  D5,(A2)         ; enregistrement du pixel
-    ADDA.l  #4,A2           ; decalage dans le bake
-    ADD.w   #4,D3           ; D3 += 4o
-    CMP     D3,D4
-    BLT     TILING          ; boucle si D3 < D4
-
-    ADDA.l  #2,A1           ; decalage dans le labyrinthe
-    ADD.l   #1,D6
-    CMP     #$691,D6        ; $691 = 1681
-    BLT     BAKING          ; on boucle si on a pas fait les 1681 cases du labyrinthe
-    RTS
 
 RENDER_PIXEL:
     MOVE.l  D2,D1
@@ -144,11 +104,14 @@ R_MAZE_FOR_Y:
     ADD.l   A1,D4           ; on ajoute la position du joueur pour avoir le bon offset
     SUBI.l  #4,D4           ; offset parce que le joueur est au milieu de l'ecran
 
-    LSR.l   #8,D6           ; shift de 2o = 1 mot
-    LSR.l   #8,D6           ; D6 = r = pixel (upscale)
+    ; shift de 2o = 1 mot
+    ; => 2*8bits de décalage
+    ; +1 car division par deux car 32px par tile et pas 64
+    ; -2 car multiplication par 4 car 4o par pixel
+    LSR.l   #8,D6           
+    LSR.l   #7,D6           ; D6 = r = pixel (upscale)
 
-    LSL.l   #1,D6           ; division par deux car 32px par tile et pas 64 mais multiplication par 4 car 4o par pixel
-
+    
     MOVE.l  A5,D7           ; recupération y pour changer le bake
 
     DIVU    #64,D7          ; D7 <- y // 64 (32*2 car upscaling)

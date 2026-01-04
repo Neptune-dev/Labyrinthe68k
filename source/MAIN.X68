@@ -97,7 +97,6 @@ CONTINUE_MAIN:
     SEED:           DS.l 1
     LOAD_MSG:       DC.l 'Chargement...',0
     MAZE:           DS.w 1681               ;   3 362 o
-    BAKED:          DS.l 1721344            ; 430 336 o
 
     END START
 
