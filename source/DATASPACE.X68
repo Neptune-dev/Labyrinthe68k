@@ -11,7 +11,7 @@ GETCELL:
     LSL.W   #1,D4       ; *2 pour que ce soit valide pour un mot
     LEA     MAZE,A0
     ADD.W   D4,A0       ; A0 = &MAZE[Y][X]
-    MOVE.W  (A0),D5     ; D5 = valeur
+    MOVE.W (A0),D5     ; D5 = MAZE[Y][X]
     RTS
 
 SETCELL:
@@ -25,26 +25,27 @@ SETCELL:
 
         RTS
 
+
 SETSEED:
     JSR     GET_TIME
     MOVE.L  D1,SEED
 	RTS
 RANDOMVAL:
     MOVE.L  SEED,D0
-    MULU    #3,D0			; D0=D0*3
-    ADD.L   #71,D0			; D0=D0*3 +71 (LCG)
+    MULU    #75,D0			; D0=D0*3
+    ADD.L   #74,D0			; D0=D0*3 +71 (LCG)
     MOVE.L  D0,SEED        ; mettre à jour la seed
 
     MOVE.L  SEED,D1
 
     MOVE.W  D4,D2           ; D4 borne supérieure
     SUB.W  #1,D2           ; D2 = D4 - 1
-    DIVU    D2,D1           ; D1 = SEED mod D2 -> valeur [0..D4-1]
-	SWAP	D1
-    ADD.W  #1,D1           ; valeur finale dans [1..D4-1]
+	DIVU D2,D1        ; D1 = SEED mod (borne)
+	MOVE.W D1,A2      ; résultat directement
 
     MOVE.W  D1,A2           ; renvoie la valeur dans A2
     RTS
+
 
 
 
