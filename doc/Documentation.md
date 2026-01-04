@@ -101,6 +101,7 @@ ___
 
 * **COLLIDER** : *GAMESPACE.X68*
     * retourne 1 si une collision a lieu
+    * ✅ D2 : variable du joueur
     * **retour** : D5
 
 * **CLEAR_TILESHEET** : *RENDERER.X68*
@@ -141,12 +142,12 @@ ___
 | SETCELL               |  |  |  | ✅ | ❌ | ❌ |  |  | ❌ |  |  |  |  |  |  |  |
 | SETSEED               |  | ❌ |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 | RANDOMVAL             |  |  |  |  | ❌ |  |  |  |  |  |  |  |  |  |  |  |
+| COLLIDER              |  |  | ✅ | ❌ | ❌ | ❌ |  |  |  |  |  |  |  |  |  |  |
 | CLEAR_TILESHEET       |  |  | ❌ | ✅ |  |  |  |  |  | ❌ |  |  |  |  |  |  |
 | LOAD_TILESHEET        |  |  | ❌ | ✅ |  |  |  |  |  | ❌ |  |  |  |  |  |  |
 | RENDER_PIXEL          |  |  | ❌ | ✅ | ✅ |  |  |  |  |  |  |  |  |  |  |  |
 | RENDER_PIXEL_ALPHA    |  |  | ❌ | ✅ | ✅ | ❌ |  |  |  |  |  |  | ❌ | ❌ |  |  |
 | RENDER_MAZE           |  |  | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | RENDER_PLAYER         |  |  | ❌ | ❌ | ❌ |  | ❌ | ❌ |  | ❌ |  |  |  |  |  |  |
-| COLLIDER              |  |  | ❌ | ❌ | ❌ | ❌ |  |  |  |  |  |  |  |  |  |  |
 |                       |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 
