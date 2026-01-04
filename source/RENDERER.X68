@@ -51,7 +51,7 @@ BAKING:
     ADD.l   D4,D3           ; D3 = bon premier pixel : on a selectionne la tile
     ADD.l   A3,D3           ; projection dans la tilesheet
     MOVE.l  D3,D4           ; copie
-    ADD.l   #$1000,D4       ; D4 = limite de la tile
+    ADD.l   #$FFC,D4        ; D4 += 4096 - 4 = dernier pixel de la tile
 TILING:
     MOVEA   D3,A4           ; A3 = adresse du pixel dans la tile
     MOVE.l  (A4),D5         ; D5 = couleur du pixel
@@ -62,9 +62,9 @@ TILING:
     BLT     TILING          ; boucle si D3 < D4
 
     ADDA.l  #2,A1           ; decalage dans le labyrinthe
-    ADD.l   #2,D6
-    CMP     #$D22,D6        ; $D22 = 3362
-    BLT     BAKING          ; on boucle si on a pas fait les 3362 octets du labyrinthe
+    ADD.l   #1,D6
+    CMP     #$691,D6        ; $691 = 1681
+    BLT     BAKING          ; on boucle si on a pas fait les 1681 cases du labyrinthe
     RTS
 
 RENDER_PIXEL:
@@ -145,7 +145,7 @@ R_MAZE_FOR_Y:
     ADD.l   A1,D7           ; on ajoute la position du joueur pour avoir le bon offset
     SUBI.l  #4,D7           ; offset parce que le joueur est au milieu de l'ecran
 
-    LSR.l   #8,D6           ; double shift d'un octet
+    LSR.l   #8,D6           ; shift de 2o = 1 mot
     LSR.l   #8,D6           ; D6 = r = pixel (upscale)
     LSR.l   #1,D6           ; division par deux car 32px par tile et pas 64
 
