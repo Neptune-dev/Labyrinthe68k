@@ -8,12 +8,12 @@ INIT_MAZE_LOOP:
         BNE     INIT_MAZE_LOOP
 INIT_LOOP: ; remplit uniquement les cases impaires avec des valeurs croissantes
         MOVE.W  #2,D6       ; valeur initiale = 2
-        MOVE.W  #1,D5       ; D5 = y commence Ã  1
+        MOVE.W  #1,D5       ; D5 = y commence à 1
 
 Y_LOOP:
         CMP.W   D3,D5
         BGE     FIN_LOOP
-        MOVE.W  #1,D4       ; D4 = x commence Ã  1
+        MOVE.W  #1,D4       ; D4 = x commence à 1
 
 X_LOOP:
         CMP.W   D3,D4
@@ -37,8 +37,8 @@ LABYFAIT:
     CMP.L   #0,D0
     BEQ     TOUS_EGAUX
 
-    MOVE.W  (A0),D1        ; valeur de rÃ©fÃ©rence
-    ADDQ.L  #2,A0          ; Ã©lÃ©ment suivant
+    MOVE.W  (A0),D1        ; valeur de référence
+    ADDQ.L  #2,A0          ; élément suivant
     SUB.L  #1,D0
 
 LOOP:
@@ -62,27 +62,25 @@ PROPAGERVALEUR:
         MOVE.L TAILLE_TOTAL,D3   ; compteur total
 BOUCLE:
         MOVE.W (A1),D0          ; lire la valeur courante du tableau
-        MOVE.L D0,D7             ; **copie dans D7 pour déboggage**
-		MOVE.B	D1,D6
         CMP.B D1,D0              ; comparer avec l'ancienne valeur
         BNE SKIP_PROPAGE
         MOVE.W D2,(A1)           ; remplacer par la nouvelle valeur
 SKIP_PROPAGE:
-        ADD.L #2,A1              ; passer à la cellule suivante
-        SUB.L #1,D3              ; décrémenter le compteur
-        BNE BOUCLE
+        ADD.L #2,A1              ; passer ? la cellule suivante
+        DBRA D3,BOUCLE       ; décrémenter D3 et boucler si pas fini
         RTS
 
 
 ALGO_FUSION:
 LOOP_FUSION:
-    ; boucle tant que le labyrinthe est pas fait
-    MOVE.L TAILLE_TOTAL,D0
-    JSR LABYFAIT
-    CMP.W #1,D4
-    BEQ FIN
+	; boucle tant qu'on a pas fait 100 appels
+	MOVE.L	NB_TOURS,D0
+	CMP.L   #0,D0
+    BEQ FIN               ; arrêter si compteur = 0
+    SUBQ.L  #1,D0
+	MOVE.L	D0,NB_TOURS        
 
-    ; --- génération des coordonnées randoms X et Y ---
+    ; --- g?n?ration des coordonn?es randoms X et Y ---
     MOVE.W TAILLE,D4
     JSR RANDOMVAL
     MOVE.L A2,D6        ; D6 = X
@@ -94,7 +92,7 @@ LOOP_FUSION:
     ;MOVE.L	#3,D7	;-------------------DEBUG
     MOVE.L D7,Y_MUR
 
-    ; --- gestion de la parité de X ---
+    ; --- gestion de la parit? de X ---
     BTST #0,D6          ; Test bit 0 de X
     BEQ X_PAIR
 X_IMPAIR:
@@ -106,46 +104,46 @@ X_PAIR:
     MOVE.L D7,Y_MUR
 
 PARITE_OK:
-    ; --- vérification de la parité de Y ---
+    ; --- v?rification de la parit? de Y ---
     MOVE.L Y_MUR,D7
     BTST #0,D7
     BEQ CAS_Y_PAIR      ; Y pair
     ; Y impair
     BTST #0,D6
     BEQ X_PAIR_Y_IMPAIR
-    BRA LOOP_FUSION     ; sinon relancer génération
+    BRA LOOP_FUSION     ; sinon relancer g?n?ration
 
 CAS_Y_PAIR:
     BTST #0,D6
     BNE X_IMPAIR_Y_PAIR
-    BRA LOOP_FUSION     ; sinon relancer génération
+    BRA LOOP_FUSION     ; sinon relancer g?n?ration
 
 ; --- Cas X pair, Y impair ---
 X_PAIR_Y_IMPAIR:
-	; --- préparation du GETCELL(x_mur+1,y_mur) ---
+	; --- pr?paration du GETCELL(x_mur+1,y_mur) ---
     MOVE.W TAILLE,D3
     MOVE.L X_MUR,D4
     MOVE.L Y_MUR,D5
     ADD.L	#1,D4
     JSR GETCELL
-    ; déplacement du résultat vers son espace atitré
+    ; d?placement du r?sultat vers son espace atitr?
     MOVE.L D5,VALEURDROITE
-    ; --- préparation du GETCELL(x_mur-1,y_mur)
+    ; --- pr?paration du GETCELL(x_mur-1,y_mur)
     MOVE.L	X_MUR,D4
     MOVE.L 	Y_MUR,D5
     SUB.L #1,D4
     JSR GETCELL
-    ; déplacement vers son espace atitré
+    ; d?placement vers son espace atitr?
     MOVE.L D5,VALEURGAUCHE
-    CMP.W VALEURDROITE,D5 ; si les deux résultats sont égaux, les deux valeurs ont déjà subi la même propagation donc on refait une boucle
+    CMP.W VALEURDROITE,D5 ; si les deux r?sultats sont ?gaux, les deux valeurs ont d?j? subi la m?me propagation donc on refait une boucle
     BEQ LOOP_FUSION
-    ; --- préparation du SETCELL(x_mur,y_mur,0) pour casser le mur
+    ; --- pr?paration du SETCELL(x_mur,y_mur,0) pour casser le mur
     MOVE.W TAILLE,D3
     MOVE.L X_MUR,D4
     MOVE.L Y_MUR,D5
     MOVE.L #0,D6
-    JSR SETCELL ; casse le mur où on est
-    ; --- préparation du PROPAGERVALEUR(VALEURGAUCHE,VALEURDROITE)
+    JSR SETCELL ; casse le mur o? on est
+    ; --- pr?paration du PROPAGERVALEUR(VALEURGAUCHE,VALEURDROITE)
     MOVE.L VALEURGAUCHE,D1
     MOVE.L VALEURDROITE,D2
     LEA	MAZE,A1
@@ -185,7 +183,7 @@ FIN:
     
     
     
-TABLEAU_RENDERING: ; remplace FFFF par 0001 et ensuite met tout ce qui n'est pas = 1 à la valeur 1.
+TABLEAU_RENDERING: ; remplace FFFF par 0001 et ensuite met tout ce qui n'est pas = 1 ? la valeur 1.
         TST.W   D0
         BEQ     CHGT_VALEURS
 ; partie suppression des FF et remplacement par 01
@@ -213,17 +211,12 @@ BOUCLE_CHGT:
         CLR.W   (A0)
 
 CONTINUE_CHGT:
-        ADDQ.L  #2, A0          ; élément suivant
-        SUBQ.W  #1, D0          ; décrémente compteur
+        ADDQ.L  #2, A0          ; ?l?ment suivant
+        SUBQ.W  #1, D0          ; d?cr?mente compteur
         BNE     BOUCLE_CHGT		; tant que D0 ? 0, on boucle
 
 END_TAB:
         RTS
-
-
-
-
-
 *~Font name~Courier New~
 *~Font size~10~
 *~Tab type~1~

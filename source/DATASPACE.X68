@@ -30,37 +30,23 @@ SETSEED:
     JSR     GET_TIME
     MOVE.L  D1,SEED
 	RTS
+
 RANDOMVAL:
     MOVE.L  SEED,D0
-    MULU    #75,D0			; D0=D0*3
-    ADD.L   #74,D0			; D0=D0*3 +71 (LCG)
-    MOVE.L  D0,SEED        ; mettre à jour la seed
+    MULU    #4,D0         ; D0 = D0 * 3
+    ADD.L   #71,D0        ; D0 = D0*3 + 71 (LCG)
+    MOVE.L  D0,SEED       ; mise à jour de la seed
 
     MOVE.L  SEED,D1
 
-    MOVE.W  D4,D2           ; D4 borne supérieure
+    MOVE.W  D4,D2          ; D4 = borne supérieure
     SUB.W  #1,D2           ; D2 = D4 - 1
-	DIVU D2,D1        ; D1 = SEED mod (borne)
-	MOVE.W D1,A2      ; résultat directement
+    DIVU    D2,D1          ; D1 = SEED mod D2 -> valeur [0..D4-1]
+    SWAP    D1
+    ADD.W   #1,D1          ; valeur finale dans [1..D4-1]
 
-    MOVE.W  D1,A2           ; renvoie la valeur dans A2
+    MOVE.W  D1,A2          ; renvoie la valeur dans A2
     RTS
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 *~Font name~Courier New~
 *~Font size~10~
