@@ -13,7 +13,7 @@ START
     MOVE.b  #17,D1          ; preparation du dessin
     JSR     DRAW_MODE
 
-    ; --- init labyrinthe  ---
+INIT_LEVEL:
     MOVE.l  #LOAD_MSG,A1        ; message de chargement
     MOVE.l  #14,D0
     TRAP    #15
