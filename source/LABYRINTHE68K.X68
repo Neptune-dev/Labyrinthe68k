@@ -20,7 +20,7 @@ INIT_LEVEL:
     JSR     SWAP_SCREEN
     MOVE.W  TAILLE,D3
     JSR     INIT_MAZE
-    JSR     ALGO_FUSION
+    ; JSR     ALGO_FUSION       ; NE FONCITONNE PAS
     MOVEA   #MAZE,A0
     MOVE.l  #$691,D0            ; 1681
     JSR     TABLEAU_RENDERING

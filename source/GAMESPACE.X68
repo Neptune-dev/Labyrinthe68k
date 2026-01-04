@@ -79,12 +79,12 @@ LOOP_FUSION:
     BEQ FIN               ; arrï¿½ter si compteur = 0
     SUBQ.L  #1,D0
 	MOVE.L	D0,NB_TOURS
-	; initialisation de x et y aléatoires (fonctionne pas)
+	; initialisation de x et y alï¿½atoires (fonctionne pas)
     MOVE.W TAILLE,D2     
 	JSR RANDOMVAL
-	MOVE.B	A2,D6
+	MOVE	A2,D6
 	JSR RANDOMVAL
-	MOVE.B	A2,D7
+	MOVE	A2,D7
     MOVE.L D6,X_MUR
     MOVE.L D7,Y_MUR
 
