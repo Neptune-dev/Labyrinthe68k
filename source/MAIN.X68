@@ -10,8 +10,8 @@ START
     ; --- init renderer  ---
     MOVE.l  #12288,D3       ; nombre d'octets dans une texture pour 3 cases de 32x32
     JSR     LOAD_TILESHEET
-    ;MOVE.b  #17,D1          ; preparation du dessin
-    ;JSR     DRAW_MODE
+    MOVE.b  #17,D1          ; preparation du dessin
+    JSR     DRAW_MODE
 
     ; --- init labyrinthe  ---
     MOVE.l  #LOAD_MSG,A1        ; message de chargement
@@ -89,8 +89,9 @@ CONTINUE_MAIN:
     VALEURHAUT:	    DC.L 1
     VALEURGAUCHE:	DC.L 1
     VALEURDROITE:	DC.L 1
-    TAILLE:         DC.W 9              ; taille d'une ligne du tableau
-    TAILLE_TOTAL:	DC.L 41             ; nombre de cases total du labyrinthe
+    TAILLE:         DC.W 19              ; taille d'une ligne du tableau
+    TAILLE_TOTAL:	DC.l 361             ; nombre de cases total du labyrinthe
+    TAILLE_MAX:	    DC.L 41             ; nombre de cases total du labyrinthe
     TILESHEET:      DS.l 3072
     TILEREF:        DC.l 'debug.tilesheet'
     SEED:           DS.l 1

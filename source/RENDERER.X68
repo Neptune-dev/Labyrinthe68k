@@ -84,15 +84,13 @@ RENDER_PIXEL_ALPHA:
     MOVE.l  D2,D1
     JSR     SET_PEN_COLOR
     JSR     SET_FILL_COLOR
-    MOVEA.l  D3,A4          ; sauvegarde x
-    MOVEA.l  D4,A5          ; sauvegarde y
-    MOVE.w  D6,D1           ; x1
-    MOVE.w  D7,D2           ; y1
-    MOVE.w  D6,D3           ; x2 = x1
-    ADD.w   #2,D3           ; x2 = x1 + 2
-    MOVE.w  D7,D4           ; y2 = y1
-    ADD.w   #2,D4           ; y2 = y1 + 2
-    JSR     DRAW_FILL_RECT
+    MOVEA.l D3,A4           ; sauvegarde x
+    MOVEA.l D4,A5           ; sauvegarde y
+    MOVE.w  D3,D1           ; préparation des coordonées (x)
+    MOVE.w  D4,D2           ; préparation des coordonées (y)
+    ADD.w   #2,D3           ; D3 = D1 + 2
+    ADD.w   #2,D4           ; D4 = D2 + 2
+    JSR     DRAW_FILL_RECT  ; dessin du rectangle
     MOVE.w  A4,D3           ; restore x
     MOVE.w  A5,D4           ; restore y
 ALPHA_JUMP:
@@ -149,6 +147,7 @@ R_MAZE_FOR_Y:
 
     LSR.l   #8,D6           ; double shift d'un octet
     LSR.l   #8,D6           ; D6 = r = pixel (upscale)
+    LSR.l   #1,D6           ; division par deux car 32px par tile et pas 64
 
     MULU    #$1000,D7       ; D7 *= 4096 car 4096 octets par tile
     MULU    #4,D6           ; D6 *= 4 car 4 octets par pixel
@@ -168,6 +167,7 @@ R_MAZE_FOR_Y:
 
     LSR.l   #8,D6           ; double shift d'un octet
     LSR.l   #8,D6           ; D6 = r = pixel (upscale)
+    LSR.l   #1,D6           ; division par deux car 32px par tile et pas 64
 
     MULU    #$1000,D7       ; D7 *= 4096 car 4096 octets par tile
     
@@ -189,7 +189,7 @@ R_MAZE_FOR_Y:
     MOVEA.l A5,A6           ; copie de l'adresse originale du bake
     ADDA.l  D7,A6           ; offset
 
-    MOVE.l  (A6),D1           ; couleur du pixel dans la tilesheet
+    MOVE.l  (A6),D1         ; couleur du pixel dans la tilesheet
 
     MOVE    #80,D0          ; SET_PEN_COLOR
     TRAP    #15             ; on donne la bonne couleur au crayon
@@ -211,8 +211,8 @@ R_MAZE_FOR_Y:
     BGT     R_MAZE_FOR_X    ; condition de boucle for (x > 0)
 
     JSR     RENDER_PLAYER
-    ;MOVE    #94,D0          ; SWAP_SCREEN
-    ;TRAP    #15
+    MOVE    #94,D0          ; SWAP_SCREEN
+    TRAP    #15
 
     RTS
 
