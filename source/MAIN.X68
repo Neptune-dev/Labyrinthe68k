@@ -22,7 +22,7 @@ START
     JSR     INIT_MAZE
     ; JSR     ALGO_FUSION
     MOVEA   #MAZE,A0
-    MOVE.l  #6561,D0
+    MOVE.l  #$691,D0            ; 1681
     JSR     TABLEAU_RENDERING
     JSR     BAKE_MAZE
 
@@ -42,6 +42,7 @@ MAIN:
     BEQ     S_INPUT
     CMP.b   #$64,D1     ; d
     BEQ     D_INPUT
+    JMP     MAIN        ; else
 
 Z_INPUT:
     SUB.l   #$1,PLAYER          ; player.y -= 1  /!\ inversion de l'axe y

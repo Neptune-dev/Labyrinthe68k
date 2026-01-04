@@ -75,7 +75,7 @@ ___
 Ici sont listées les procédures. Sont spécifiés:
 * Le nom de la procédure
 * Le programme dans laquelle est elle définie
-* Les registres utilisés, et si leurs valeurs sont écrasées :
+* Les registres utilisés pour la prise de paramètre, et si leurs valeurs sont écrasées :
     * ✅ = valeur conservée
     * ❌ = valeur écrasée
 * optionnel : les registres où se situent les valeurs de retour
@@ -87,7 +87,6 @@ ___
     * ✅ D3.w : largeur du labyrinthe
     * ❌ D4.w : x
     * ❌ D5.w : y
-    * ❌ A0 : travail
     * **retour** : D5
 
 * **SETCELL** : *DATASPACE.X68*
@@ -99,7 +98,6 @@ ___
 
 * **SETSEED** : *DATASPACE.X68*
     * génère la seed en fonction de l'heure et la stocke dans **SEED**
-    * ❌ D1.l : travail
 
 * **RANDOMVAL** : *DATASPACE.X68*
     * retourne une valeur aléatoire comprise entre 1 et n
@@ -108,35 +106,19 @@ ___
 
 * **CLEAR_TILESHEET** : *RENDERER.X68*
     * met à 0 toute la **TILESHEET**
-    * ❌ A1 : travail
-    * ❌ D2 : travail
     * ✅ D3.l : taille attendue de la tilesheet (en octets)
 
 * **LOAD_TILESHEET** : *RENDERER.X68*
     * met à 0 toute la **TILESHEET**
     * charge dans **TILESHEET** le fichier **TILEREF**
     * ✅ D3.l : taille attendue de la tilesheet (en octets)
-    * ❌ D2 : travail
-    * ❌ A1 : travail
 
 * **CLEAR_BAKED** : *RENDERER.X68*
     * met à 0 tout **BAKED**
-    * ❌ A1 : travail
-    * ❌ D2 : travail
-    * ❌ D3 : travail
 
 * **BAKE_MAZE** : *RENDERER.X68*
     * charge pour chaque case du labyrinthe la tile correspondante
     * charge dans **BAKED**
-    * ❌ D2 : travail
-    * ❌ D3 : travail
-    * ❌ D4 : travail
-    * ❌ D5 : travail
-    * ❌ D6 : travail
-    * ❌ A1 : travail
-    * ❌ A2 : travail
-    * ❌ A3 : travail
-    * ❌ A4 : travail
 
 * **RENDER_PIXEL** : *RENDERER.X68*
     * dessine un pixel en RGB
@@ -149,23 +131,10 @@ ___
     * ❌ D2.l : couleur du pixel au format `$AABBGGRR` où le canal alpha ne peut être que `$00` ou `$FF`
     * ✅ D3.w : coordonnée x du pixel sur l'écran
     * ✅ D4.w : coordonnée y du pixel sur l'écran
-    * ❌ D5 : travail
 
 * **RENDER_MAZE** : *RENDERER.X68*
     * dessine le labyrinthe contenue dans **MAZE**
     * écrase les dessins déjà exitants
-    * ❌ D2 : travail
-    * ❌ D3 : travail
-    * ❌ D4 : travail
-    * ❌ D5 : travail
-    * ❌ D6 : travail
-    * ❌ D7 : travail
-    * ❌ A1 : travail
-    * ❌ A2 : travail
-    * ❌ A3 : travail
-    * ❌ A4 : travail
-    * ❌ A5 : travail
-    * ❌ A6 : travail
 
 
 
@@ -183,6 +152,6 @@ ___
 | BAKE_MAZE             |  |  | ❌ | ❌ | ❌ | ❌ | ❌ |  |  | ❌ | ❌ | ❌ | ❌ |  |  |  |
 | RENDER_PIXEL          |  |  | ❌ | ✅ | ✅ |  |  |  |  |  |  |  |  |  |  |  |
 | RENDER_PIXEL_ALPHA    |  |  | ❌ | ✅ | ✅ | ❌ |  |  |  |  |  |  |  |  |  |  |
-| RENDER_MAZE           |  |  | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |  | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |  |
+| RENDER_MAZE           |  |  | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |  |
 |                       |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 

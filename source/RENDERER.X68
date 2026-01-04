@@ -97,20 +97,20 @@ RENDER_MAZE:
     MOVE.l      PLAYER,D6           ; récupération des données
     MOVE.l      D6,D7               ; copie
     AND.l       #$FF00,D6           ; D6 = player.x décalé d'un octet
-    ASR.l       #8,D6               ; D6 = player.x
+    LSR.l       #8,D6               ; D6 = player.x
     AND.l       #$FF,D7             ; D7 = player.y
     MOVEA.l     D6,A1               ; A1 = player.x
     MOVEA.l     D7,A2               ; A2 = player.y
     MOVEA.l     #BAKED,A5           ; A5 = &baked
 
-    MOVE.w  #638,D5           ; x1 = 638 | dans D5 car la couleur aussi a besoin de D1
-    MOVE.w  #640,D3           ; x2 = 640 | ce registre ne va pas changer d'usage
+    MOVE.l  #638,D5           ; x1 = 638 | dans D5 car la couleur aussi a besoin de D1
+    MOVE.l  #640,D3           ; x2 = 640 | ce registre ne va pas changer d'usage
 R_MAZE_FOR_X:
-    MOVE.w  #478,D2           ; y1 = 478 | ce registre ne va pas changer d'usage
-    MOVE.w  #480,D4           ; y2 = 480 | ce registre ne va pas changer d'usage
+    MOVE.l  #478,D2           ; y1 = 478 | ce registre ne va pas changer d'usage
+    MOVE.l  #480,D4           ; y2 = 480 | ce registre ne va pas changer d'usage
 R_MAZE_FOR_Y:
 
-    MOVE.w  D5,D6           ; recupération x pour changer le bake
+    MOVE.l  D5,D6           ; recupération x pour changer le bake
 
     DIVU    #64,D6          ; D6 <- x // 64 (32*2 car upscaling)
 
@@ -120,8 +120,8 @@ R_MAZE_FOR_Y:
     ADD.l   A1,D7           ; on ajoute la position du joueur pour avoir le bon offset
     SUBI.l  #4,D7           ; offset parce que le joueur est au milieu de l'ecran
 
-    ASR.l   #8,D6           ; double shift d'un octet
-    ASR.l   #8,D6           ; D6 = r = pixel (upscale)
+    LSR.l   #8,D6           ; double shift d'un octet
+    LSR.l   #8,D6           ; D6 = r = pixel (upscale)
 
     MULU    #$1000,D7       ; D7 *= 4096 car 4096 octets par tile
     MULU    #4,D6           ; D6 *= 4 car 4 octets par pixel
@@ -129,7 +129,7 @@ R_MAZE_FOR_Y:
 
     MOVEA.l D6,A3           ; on stocke pour plus tard
 
-    MOVE.w  D2,D6           ; recupération y pour changer le bake
+    MOVE.l  D2,D6           ; recupération y pour changer le bake
 
     DIVU    #64,D6          ; D6 <- y // 64 (32*2 car upscaling)
 
@@ -139,12 +139,22 @@ R_MAZE_FOR_Y:
     ADD.l   A2,D7           ; on ajoute la position du joueur pour avoir le bon offset
     SUBI.l  #3,D7           ; offset parce que le joueur est au milieu de l'ecran
 
-    ASR.l   #8,D6           ; double shift d'un octet
-    ASR.l   #8,D6           ; D6 = r = pixel (upscale)
+    LSR.l   #8,D6           ; double shift d'un octet
+    LSR.l   #8,D6           ; D6 = r = pixel (upscale)
 
     MULU    #$1000,D7       ; D7 *= 4096 car 4096 octets par tile
-    MULU    TAILLE_TOTAL,D7          ; D7 *= 81 car 81 tile par ligne dans le labyrinthe
-    MULU    #$80,D6         ; D6 *= 128 car 128 octets par ligne dans une tile
+    
+    MOVEA.l D6,A0           ; on stocke D6 le temps de la multiplication
+    MOVE.l  D7,D6           ; notation : D7 = a
+                            ; D7 *= 41 car 41 tile par ligne dans le labyrinthe
+    ASL.l   #5,D7           ; D7(b) = D7(a) * 2 * 2 * 2 * 2 * 2 = D7(a) * 32
+    ADD.l   D6,D7           ; D7(b) = "D7(a) * 33"
+    ASL.l   #3,D6           ; D6(c) = D6(a) * 2 * 2 * 2 = D6 * 8
+    ADD.l   D6,D7           ; D7 = b + c = 33*a + 8*a = 41*adresse
+
+    MOVE.l  A0,D6           ; on reprend D6
+
+    ASL.l   #7,D6         ; D6 *= 2 * 2 * 2 * 2 * 2 * 2 * 2 = 128 car 128 octets par ligne dans une tile
 
     ADD.l   A3,D7           ; D7 = A3 += offset de tile
     ADD.l   D6,D7           ; D7 += offset de pixel dans la tile
@@ -160,7 +170,7 @@ R_MAZE_FOR_Y:
     MOVE    #81,D0          ; SET_FILL_COLOR
     TRAP    #15             ; couleur de remplissage
 
-    MOVE.w  D5,D1           ; préparation des coordonées (x)
+    MOVE.l  D5,D1           ; préparation des coordonées (x)
 
     MOVE    #87,D0          ; DRAW_FILL_RECT
     TRAP    #15             ; dessin du rectangle
