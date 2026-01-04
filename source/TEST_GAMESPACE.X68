@@ -16,18 +16,12 @@ VALEURBAS:	DC.L	1
 VALEURHAUT:	DC.L	1
 VALEURGAUCHE:	DC.L	1
 VALEURDROITE:	DC.L	1
-TAILLE:  DC.W    10 ; taille d'une ligne du tableau (toutes les cases)
-TAILLE_TOTAL:	DC.L	100  ; nombre de cases total du labyrinthe
-MAZE:    DS.W    100 ; cases du labyrinthe 
+TAILLE:  DC.W    11 ; taille d'une ligne du tableau (toutes les cases)
+TAILLE_TOTAL:	DC.L	121  ; nombre de cases total du labyrinthe
+MAZE:    DS.W    121 ; cases du labyrinthe 
+NB_TOURS:	DC.L	350 ; nombres de tours de la boucle ALGO_FUSION
 
 	END START
-
-
-
-
-
-
-
 *~Font name~Courier New~
 *~Font size~10~
 *~Tab type~1~

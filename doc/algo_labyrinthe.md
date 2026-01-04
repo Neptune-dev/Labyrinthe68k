@@ -15,7 +15,7 @@ On modélise le labyrinthe de la façon suivante :
 
 ```
 
-Le labyrinthe ressemblerait donc à ceci pour une taille = 9:
+L'initialisation du labyrinthe ressemblerait donc à ceci pour une taille = 9:
 y x 0 1 2 3 4 5 6 7 8
 0   # # # # # # # # #
 1   # 2 # 6 #10 #14 #
@@ -43,8 +43,8 @@ Les subroutines prérequises pour le bon fonctionnement de l'algo de génératio
 **GETCELL(x,y)**: TAILLE: D3, x: D4, y: D5 -> output: D5
 -> renvoie la valeur de la cellule à la position (x,y)
 
-**SETCELL(x,y,val)**: TAILLE: D3, x: D4, y: D5, n: A0
--> met à la position x,y la valeur val.
+**SETCELL(x,y,n)**: TAILLE: D3, x: D4, y: D5, n: A0
+-> met à la position x,y la valeur n.
 
 **TAILLE**: Constante qui contient le nombre de cases sur une ligne du labyrinthe
 **TAILLE_TOTAL**: Constante qui contient le nombre de lignes totales du labyrinthe.
@@ -57,19 +57,19 @@ tant que !LABYFAIT FAIRE
     x_mur = valeur aléatoire (paire ou impaire)
     y_mur = valeur aléatoire (de parité opposée à x_mur)
     si x_mur pair et y_mur impair faire //les valeurs sont en haut et en bas
-        VALEURBAS=GETCELL(x_mur+1,y_mur)
-        VALEURHAUT=GETCELL(x_mur-1,y_mur)
-        si VALEURBAS != VALEURHAUT faire
+        VALEURDROITE=GETCELL(x_mur+1,y_mur)
+        VALEURGAUCHE=GETCELL(x_mur-1,y_mur)
+        si VALEURDROITE != VALEURGAUCHE faire
             SETCELL(x_mur,y_mur,0)
-            PROPAGERVALEUR(VALEURBAS,VALEURHAUT)
+            PROPAGERVALEUR(VALEURGAUCHE,VALEURDROITE)
         finsi
     finsi
     si x_mur impair et y_mur pair faire //les valeurs sont à gauche et à droite
-        VALEURGAUCHE=GETCELL(x_mur,y_mur-1)
-        VALEURDROITE=GETCELL(x_mur,y_mur+1)
-        si VALEURGAUCHE != VALEURDROITE faire
+        VALEURHAUT=GETCELL(x_mur,y_mur-1)
+        VALEURBAS=GETCELL(x_mur,y_mur+1)
+        si VALEURHAUT != VALEURBAS faire
             SETCELL(x_mur,y_mur,0)
-            PROPAGERVALEUR(VALEURGAUCHE,VALEURDROITE)
+            PROPAGERVALEUR(VALEURHAUT,VALEURBAS)
         finsi
     finsi
 fintq
