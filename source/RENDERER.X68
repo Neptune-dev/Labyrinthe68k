@@ -82,13 +82,19 @@ RENDER_PIXEL_ALPHA:
     CMP.l   #$FF000000,D5   ; verification du canal alpha
     BEQ     ALPHA_JUMP      ; on saute l'étape de dessin si le canal alpha est egale à $FF
     MOVE.l  D2,D1
-    JSR     SET_PEN_COLOR   ; on donne la bonne couleur au crayon
-    JSR     SET_FILL_COLOR  ; on donne la bonne couleur au remplissage
-    MOVE.w  D3,D1           ; préparation des coordonées (x)
-    MOVE.w  D4,D2           ; préparation des coordonées (y)
-    ADD.w   #2,D3           ; D3 = D1 + 2
-    ADD.w   #2,D4           ; D4 = D2 + 2
-    JSR     DRAW_FILL_RECT  ; dessin du rectangle
+    JSR     SET_PEN_COLOR
+    JSR     SET_FILL_COLOR
+    MOVEA.l  D3,A4          ; sauvegarde x
+    MOVEA.l  D4,A5          ; sauvegarde y
+    MOVE.w  D6,D1           ; x1
+    MOVE.w  D7,D2           ; y1
+    MOVE.w  D6,D3           ; x2 = x1
+    ADD.w   #2,D3           ; x2 = x1 + 2
+    MOVE.w  D7,D4           ; y2 = y1
+    ADD.w   #2,D4           ; y2 = y1 + 2
+    JSR     DRAW_FILL_RECT
+    MOVE.w  A4,D3           ; restore x
+    MOVE.w  A5,D4           ; restore y
 ALPHA_JUMP:
     RTS
 

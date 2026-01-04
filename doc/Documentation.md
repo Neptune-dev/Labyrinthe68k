@@ -136,6 +136,9 @@ ___
     * dessine le labyrinthe contenue dans **MAZE**
     * écrase les dessins déjà exitants
 
+* **RENDER_PLAYER** : *RENDERER.X68*
+    * dessine le joueur au milieu de l'écran
+    * utilise le canal alpha
 
 
 ## Registres
@@ -151,7 +154,8 @@ ___
 | CLEAR_BAKED           |  |  | ❌ | ❌ |  |  |  |  |  | ❌ |  |  |  |  |  |  |
 | BAKE_MAZE             |  |  | ❌ | ❌ | ❌ | ❌ | ❌ |  |  | ❌ | ❌ | ❌ | ❌ |  |  |  |
 | RENDER_PIXEL          |  |  | ❌ | ✅ | ✅ |  |  |  |  |  |  |  |  |  |  |  |
-| RENDER_PIXEL_ALPHA    |  |  | ❌ | ✅ | ✅ | ❌ |  |  |  |  |  |  |  |  |  |  |
+| RENDER_PIXEL_ALPHA    |  |  | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ |  |  |  |  | ❌ | ❌ |  |  |
 | RENDER_MAZE           |  |  | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |  |
+| RENDER_PLAYER         |  |  | ❌ | ❌ | ❌ |  | ❌ | ❌ |  | ❌ |  |  |  |  |  |  |
 |                       |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 
