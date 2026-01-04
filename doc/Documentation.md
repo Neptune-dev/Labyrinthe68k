@@ -116,6 +116,8 @@ ___
     * met à 0 toute la **TILESHEET**
     * charge dans **TILESHEET** le fichier **TILEREF**
     * ✅ D3.l : taille attendue de la tilesheet (en octets)
+    * ❌ D2 : travail
+    * ❌ A1 : travail
 
 * **CLEAR_BAKED** : *RENDERER.X68*
     * met à 0 tout **BAKED**
@@ -133,6 +135,8 @@ ___
     * ❌ D6 : travail
     * ❌ A1 : travail
     * ❌ A2 : travail
+    * ❌ A3 : travail
+    * ❌ A4 : travail
 
 * **RENDER_PIXEL** : *RENDERER.X68*
     * dessine un pixel en RGB
@@ -167,21 +171,18 @@ ___
 
 ## Registres
 
-| Registre | Libre | Utilisation | Procédures |
-|---|---|---|---|
-| D0 | ❌ | Appels systèmes |  |
-| D1 | ⚠️ | Appels systèmes | RENDER_MAZE |
-| D2 | ⚠️ | Appels systèmes pour l'affichage | CLEAR_TILESHEET, RENDER_PIXEL, RENDER_PIXEL_ALPHA, BAKE_MAZE, RENDER_MAZE |
-| D3 | ⚠️ |  | GETCELL, SETCELL, LOAD_TILESHEET, RENDER_PIXEL, RENDER_PIXEL_ALPHA, BAKE_MAZE, RENDER_MAZE |
-| D4 | ⚠️ |  | GETCELL, SETCELL, RANDOMVAL, RENDER_PIXEL, RENDER_PIXEL_ALPHA, BAKE_MAZE, RENDER_MAZE |
-| D5 | ⚠️ |  | GETCELL, SETCELL, RENDER_PIXEL, BAKE_MAZE, RENDER_MAZE |
-| D6 | ⚠️ |  | BAKE_MAZE, RENDER_MAZE |
-| D7 | ⚠️ |  | RENDER_MAZE |
-| A0 | ⚠️ |  | GETCELL, SETCELL |
-| A1 | ⚠️ |  | LOAD_TILESHEET, CLEAR_TILESHEET, BAKE_MAZE, RENDER_MAZE |
-| A2 | ⚠️ |  | RANDOMVAL, BAKE_MAZE, RENDER_MAZE |
-| A3 | ⚠️ |  | RENDER_MAZE |
-| A4 | ⚠️ |  | RENDER_MAZE |
-| A5 | ⚠️ |  | RENDER_MAZE |
-| A6 | ⚠️ |  | RENDER_MAZE |
-| A7 | ✅ |  |  |
+| Procédure | D0 | D1 | D2 | D3 | D4 | D5 | D6 | D7 | A0 | A1 | A2 | A3 | A4 | A5 | A6 | A7 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| GETCELL               |  |  |  | ✅ | ❌ | ❌ |  |  | ❌ |  |  |  |  |  |  |  |
+| SETCELL               |  |  |  | ✅ | ❌ | ❌ |  |  | ❌ |  |  |  |  |  |  |  |
+| SETSEED               |  | ❌ |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| RANDOMVAL             |  |  |  |  | ❌ |  |  |  |  |  |  |  |  |  |  |  |
+| CLEAR_TILESHEET       |  |  | ❌ | ✅ |  |  |  |  |  | ❌ |  |  |  |  |  |  |
+| LOAD_TILESHEET        |  |  | ❌ | ✅ |  |  |  |  |  | ❌ |  |  |  |  |  |  |
+| CLEAR_BAKED           |  |  | ❌ | ❌ |  |  |  |  |  | ❌ |  |  |  |  |  |  |
+| BAKE_MAZE             |  |  | ❌ | ❌ | ❌ | ❌ | ❌ |  |  | ❌ | ❌ | ❌ | ❌ |  |  |  |
+| RENDER_PIXEL          |  |  | ❌ | ✅ | ✅ |  |  |  |  |  |  |  |  |  |  |  |
+| RENDER_PIXEL_ALPHA    |  |  | ❌ | ✅ | ✅ | ❌ |  |  |  |  |  |  |  |  |  |  |
+| RENDER_MAZE           |  |  | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |  | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |  |
+|                       |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+

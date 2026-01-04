@@ -40,6 +40,7 @@ BAKE_MAZE:
     JSR     CLEAR_BAKED     ; clear
     MOVEA   #MAZE,A1        ; A1 = adresse courante du labyrinthe
     MOVEA   #BAKED,A2       ; A2 = adresse courante du bake
+    MOVEA   #TILESHEET,A3   ; A3 = adresse de la tilesheet
     CLR.l   D2
     CLR.l   D6
 BAKING:
@@ -48,12 +49,12 @@ BAKING:
     MOVE.l  #$1000,D4       ; D4 = 4096o, y-offset, car une tile = 1024 pixels = 4096 octets
     MULU    D2,D4           ; on applique l'offset en fonction de si c'est un mur ou un chemin
     ADD.l   D4,D3           ; D3 = bon premier pixel : on a selectionne la tile
-    ADD.l   #TILESHEET,D3   ; projection dans la tilesheet
+    ADD.l   A3,D3           ; projection dans la tilesheet
     MOVE.l  D3,D4           ; copie
     ADD.l   #$1000,D4       ; D4 = limite de la tile
 TILING:
-    MOVEA   D3,A3           ; A3 = adresse du pixel dans la tile
-    MOVE.l  (A3),D5         ; D5 = couleur du pixel
+    MOVEA   D3,A4           ; A3 = adresse du pixel dans la tile
+    MOVE.l  (A4),D5         ; D5 = couleur du pixel
     MOVE.l  D5,(A2)         ; enregistrement du pixel
     ADDA.l  #4,A2           ; decalage dans le bake
     ADD.w   #4,D3           ; D3 += 4o
@@ -62,8 +63,8 @@ TILING:
 
     ADDA.l  #2,A1           ; decalage dans le labyrinthe
     ADD.l   #2,D6
-    CMP     #13322,D6
-    BLT     BAKING          ; on boucle si on a pas fait les 13 322 octets du labyrinthe
+    CMP     #$D22,D6        ; $D22 = 3362
+    BLT     BAKING          ; on boucle si on a pas fait les 3362 octets du labyrinthe
     RTS
 
 RENDER_PIXEL:
