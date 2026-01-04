@@ -83,14 +83,35 @@ RENDER_PIXEL_ALPHA:
     BEQ     ALPHA_JUMP      ; on saute l'étape de dessin si le canal alpha est egale à $FF
     MOVE.l  D2,D1
     JSR     SET_PEN_COLOR   ; on donne la bonne couleur au crayon
+    JSR     SET_FILL_COLOR  ; on donne la bonne couleur au remplissage
     MOVE.w  D3,D1           ; préparation des coordonées (x)
     MOVE.w  D4,D2           ; préparation des coordonées (y)
-    JSR     DRAW_PIX        ; dessin du pixel
+    ADD.w   #2,D3           ; D3 = D1 + 2
+    ADD.w   #2,D4           ; D4 = D2 + 2
+    JSR     DRAW_FILL_RECT  ; dessin du rectangle
 ALPHA_JUMP:
     RTS
 
 RENDER_PLAYER:
+    MOVEA.l     #TILESHEET,A1       ; A1 = &tilesheet
+    ADDA.l      #$3000,A1           ; A1 += 12288 = 32*32 * 4o * 3 car on décale de 3 tiles dans la tilesheet
+    SUBA.l      #4,A1               ; A1 -= 4 pour etre sur la dernière couleur de la tilesheet
+    MOVE.l      #$80,D7             ; D7 = 128 = 32*4 : 128o sur une ligne de pixel 
+    MOVE.l      #$FE,D4             ; D4 = 254 = y
+FOR_RP_Y:
+    MOVE.l      #$13E,D3            ; D3 = 318 = x
+    MOVE.l      #$80,D6             ; D6 = 128 = 32*4 : 128o sur une ligne de pixel 
+FOR_RP_X:
+    MOVE.l      (A1),D2             ; on récupère la couleur
+    JSR         RENDER_PIXEL_ALPHA  ; affichage du pixel
+    SUBA.l      #4,A1               ; shift de l'adresse dans la tilesheet
+    SUBQ.l      #2,D3               ; shift de x
+    SUBQ.l      #4,D6               ; D6 -= 4       
+    BGT         FOR_RP_X            ; boucle si D6 > 0
 
+    SUBQ.l      #2,D4               ; shift de y
+    SUBQ.l      #4,D7               ; D7 -= 4       
+    BGT         FOR_RP_Y            ; boucle si D7 > 0
     RTS
 
 RENDER_MAZE:
@@ -154,7 +175,7 @@ R_MAZE_FOR_Y:
 
     MOVE.l  A0,D6           ; on reprend D6
 
-    ASL.l   #7,D6         ; D6 *= 2 * 2 * 2 * 2 * 2 * 2 * 2 = 128 car 128 octets par ligne dans une tile
+    ASL.l   #7,D6           ; D6 *= 2 * 2 * 2 * 2 * 2 * 2 * 2 = 128 car 128 octets par ligne dans une tile
 
     ADD.l   A3,D7           ; D7 = A3 += offset de tile
     ADD.l   D6,D7           ; D7 += offset de pixel dans la tile
@@ -183,8 +204,9 @@ R_MAZE_FOR_Y:
     SUBQ.w  #2,D3           ; x2 = x2-2
     BGT     R_MAZE_FOR_X    ; condition de boucle for (x > 0)
 
-    MOVE    #94,D0          ; SWAP_SCREEN
-    TRAP    #15
+    JSR     RENDER_PLAYER
+    ;MOVE    #94,D0          ; SWAP_SCREEN
+    ;TRAP    #15
 
     RTS
 

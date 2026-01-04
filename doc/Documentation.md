@@ -127,7 +127,7 @@ ___
     * ✅ D4.w : coordonnée y du pixel sur l'écran
 
 * **RENDER_PIXEL_ALPHA** : *RENDERER.X68*
-    * dessine un pixel en RGBa
+    * dessine un carré de 2x2 pixel en RGBa
     * ❌ D2.l : couleur du pixel au format `$AABBGGRR` où le canal alpha ne peut être que `$00` ou `$FF`
     * ✅ D3.w : coordonnée x du pixel sur l'écran
     * ✅ D4.w : coordonnée y du pixel sur l'écran

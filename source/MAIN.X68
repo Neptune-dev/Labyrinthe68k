@@ -10,8 +10,8 @@ START
     ; --- init renderer  ---
     MOVE.l  #12288,D3       ; nombre d'octets dans une texture pour 3 cases de 32x32
     JSR     LOAD_TILESHEET
-    MOVE.b  #17,D1          ; preparation du dessin
-    JSR     DRAW_MODE
+    ;MOVE.b  #17,D1          ; preparation du dessin
+    ;JSR     DRAW_MODE
 
     ; --- init labyrinthe  ---
     MOVE.l  #LOAD_MSG,A1        ; message de chargement
@@ -65,8 +65,8 @@ D_INPUT:
     OR.w    #$2,PLAYER          ; player.orientation = 00000010
 
 CONTINUE_MAIN:
-    JSR     RENDER_MAZE ; rendu
-    JMP     MAIN        ; boucle
+    JSR     RENDER_MAZE         ; rendu
+    JMP     MAIN                ; boucle
 
 
 
