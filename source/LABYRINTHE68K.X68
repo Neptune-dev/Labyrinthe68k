@@ -1,5 +1,5 @@
 *-----------------------------------------------------------
-* Title      : MAIN
+* Title      : LABYRINTHE64K
 * Written by : Felix LADISLAS & Lucas DELCROIX
 * Date       : 2026
 * Description: programme principal
