@@ -93,7 +93,7 @@ CONTINUE_MAIN:
     TAILLE_TOTAL:	DC.l 361             ; nombre de cases total du labyrinthe
     TAILLE_MAX:	    DC.L 41             ; nombre de cases total du labyrinthe
     TILESHEET:      DS.l 3072
-    TILEREF:        DC.l 'debug.tilesheet'
+    TILEREF:        DC.l 'lab.tilesheet'
     SEED:           DS.l 1
     LOAD_MSG:       DC.l 'Chargement...',0
     MAZE:           DS.w 1681           ;   3 362 o
